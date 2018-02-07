@@ -7,9 +7,14 @@ Welcome to KiCad's Python documentation!
 ========================================
 
 .. toctree::
+   :caption: User Documentation
    :maxdepth: 2
-   :caption: Contents:
+   
+   kicad/pcbnew/index
 
+.. toctree::
+   :caption: Examples
+   :maxdepth: 2
 
 Indices and tables
 ==================
