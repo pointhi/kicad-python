@@ -22,6 +22,16 @@ _pcbnew = __import__('pcbnew')  # We need to import the pcbnew module this way, 
 
 
 class Board(object):
+    """Create a new Board object
+
+    :param board: already existing board object
+    :type board: :class:`pcbnew.BOARD`
+
+    :Example:
+
+    >>> from kicad.pcbnew import Board
+    >>> b = Board()
+    """
     def __init__(self, board=None):
         if board is None:
             board = _pcbnew.BOARD()
@@ -29,16 +39,39 @@ class Board(object):
         self._obj = board
 
     def get_native(self):
-        # TODO: get_repr, get_native, get_internal, ...?
+        """Get native object from the low level API
+
+        :return: :class:`pcbnew.BOARD`
+        """
         return self._obj
 
     @staticmethod
     def from_editor():
-        """Get the current board"""
+        """Get the current board visible in pcbnew
+
+        :return: :class:`kicad.pcbnew.Board`
+
+        :Example:
+
+        >>> from kicad.pcbnew import Board
+        >>> b = Board.from_editor()
+        """
         return Board(_pcbnew.GetBoard())
 
     @staticmethod
     def from_file(path):
+        """Load a board from a given filepath
+
+        :param path: path to the ".kicad_mod" file
+        :type path: ``str``
+
+        :return: :class:`kicad.pcbnew.Board`
+
+        :Example:
+
+        >>> from kicad.pcbnew import Board
+        >>> b = Board.from_file("path/to/board.kicad_mod")# doctest: +SKIP
+        """
         return Board(_pcbnew.LoadBoard(path))
 
     @staticmethod
@@ -78,21 +111,21 @@ class Board(object):
     @property
     def modules(self):
         it = self._obj.GetModules().begin()  # TODO: check
-        while not it == None:
+        while it is not None:
             yield Module(it)
             it = it.Next()
 
     @property
     def tracks(self):
         it = self._obj.GetTracks().begin()  # TODO: check
-        while not it == None:
+        while it is not None:
             yield Track(it)  # TODO: vias also included
             it = it.Next()
 
     @property
     def zones(self):
         it = self._obj.GetZones().begin()  # TODO: check
-        while not it == None:
+        while it is not None:
             yield Zone(it)
             it = it.Next()
 
@@ -108,7 +141,7 @@ class Board(object):
     @property
     def drawings(self):
         it = self._obj.GetDrawings().begin()  # TODO: check
-        while not it == None:
+        while it is not None:
             yield Drawing(it)
             it = it.Next()
 

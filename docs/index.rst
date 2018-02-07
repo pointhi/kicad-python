@@ -6,6 +6,17 @@
 Welcome to KiCad's Python documentation!
 ========================================
 
+This is the initial proposal for a high level `KiCad <http://kicad-pcb.org>`_. Python API.
+
+Main goals are:
+
+* easy to understand
+* everything is documented and tested
+* stable
+
+Please note this in initial development. Everything can change, and this is at the moment an inofficial realisation
+of this idea (thus unstable 3rd-party software).
+
 .. toctree::
    :caption: User Documentation
    :maxdepth: 2
@@ -15,6 +26,8 @@ Welcome to KiCad's Python documentation!
 .. toctree::
    :caption: Examples
    :maxdepth: 2
+
+   examples/bga_fanout
 
 Indices and tables
 ==================

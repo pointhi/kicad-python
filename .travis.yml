@@ -1,0 +1,31 @@
+sudo: required
+dist: trusty
+cache:
+  - pip
+  - directories:
+    - $HOME/.cache/pip
+addons:
+  apt:
+    packages:
+    - python-flake8
+language: python
+python:
+  - "2.7"
+before_install:
+  # we need KiCad for testing
+  #- sudo add-apt-repository --yes ppa:js-reynaud/kicad-4 -y
+  - sudo add-apt-repository --yes ppa:js-reynaud/ppa-kicad -y
+  - sudo apt update -q
+  - sudo apt install --no-install-recommends kicad -y
+install:
+  - pip install sphinx sphinx_rtd_theme
+script:
+  # test code formatting
+  - flake8
+
+  # test sphinx documentation
+  - export PYTHONPATH=/usr/lib/python2.7/dist-packages # otherwise our scripts do not find pcbnew
+  - (cd docs && mkdir -p _static) # otherwise `make html` will return an error
+  - (cd docs && make SPHINXBUILD=sphinx-build SPHINXOPTS=-W html)
+  - (cd docs && make SPHINXBUILD=sphinx-build SPHINXOPTS=-W doctest)
+  - (cd docs && make SPHINXBUILD=sphinx-build SPHINXOPTS=-W linkcheck)

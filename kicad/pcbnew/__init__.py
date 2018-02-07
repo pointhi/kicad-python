@@ -13,9 +13,9 @@
 #
 # (C) 2018 by Thomas Pointhuber, <thomas.pointhuber@gmx.at>
 
-from board import Board
-from drawing import Drawing
-from module import Module
-from pad import Pad
-from track import Track
-from zone import Zone
+from board import Board         # noqa: F401
+from drawing import Drawing     # noqa: F401
+from module import Module       # noqa: F401
+from pad import Pad             # noqa: F401
+from track import Track         # noqa: F401
+from zone import Zone           # noqa: F401
