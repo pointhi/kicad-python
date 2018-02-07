@@ -13,7 +13,12 @@
 #
 # (C) 2018 by Thomas Pointhuber, <thomas.pointhuber@gmx.at>
 
-_pcbnew = __import__("pcbnew")  # We need to import the pcbnew module this way, otherwise we try to import us ourself
+from .drawing import Drawing
+from .module import Module
+from .track import Track
+from .zone import Zone
+
+_pcbnew = __import__('pcbnew')  # We need to import the pcbnew module this way, otherwise we try to import us ourself
 
 
 class Board(object):
@@ -110,70 +115,3 @@ class Board(object):
     @property
     def layers_enabled(self):
         return self._obj.GetEnabledLayers()  # TODO: add wrapper and setter
-
-
-class Module(object):
-    def __init__(self, module=None):
-        if module is None:
-            module = _pcbnew.MODULE()
-
-        self._obj = module
-
-    def get_native(self):
-        # TODO: get_repr, get_native, get_internal, ...?
-        return self._obj
-
-    @staticmethod
-    def from_editor():
-        """Get the current board"""
-        return Module(_pcbnew.GetModule())  # TODO: in footprint editor, working?
-
-    @staticmethod
-    def from_file(path):
-        return Module(_pcbnew.LoadModule(path))  # TODO: working?
-
-    @staticmethod
-    def from_source(source):
-        pass  # TODO: missing
-
-    def save_file(path):
-        pass  # TODO: missing
-
-    def save_in_lib(library_path):
-        pass  # TODO: missing
-
-
-class Pad(object):
-    def __init__(self, pad):
-        self._obj = pad
-
-    def get_native(self):
-        # TODO: get_repr, get_native, get_internal, ...?
-        return self._obj
-
-
-class Track(object):
-    def __init__(self, track):
-        self._obj = track
-
-    def get_native(self):
-        # TODO: get_repr, get_native, get_internal, ...?
-        return self._obj
-
-
-class Zone(object):
-    def __init__(self, zone):
-        self._obj = zone
-
-    def get_native(self):
-        # TODO: get_repr, get_native, get_internal, ...?
-        return self._obj
-
-
-class Drawing(object):
-    def __init__(self, drawing):
-        self._obj = drawing
-
-    def get_native(self):
-        # TODO: get_repr, get_native, get_internal, ...?
-        return self._obj
