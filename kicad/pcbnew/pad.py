@@ -13,8 +13,6 @@
 #
 # (C) 2018 by Thomas Pointhuber, <thomas.pointhuber@gmx.at>
 
-_pcbnew = __import__('pcbnew')  # We need to import the pcbnew module this way, otherwise we try to import us ourself
-
 
 class Pad(object):
     def __init__(self, pad):

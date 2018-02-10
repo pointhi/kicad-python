@@ -13,9 +13,12 @@
 #
 # (C) 2018 by Thomas Pointhuber, <thomas.pointhuber@gmx.at>
 
-from kicad.pcbnew.board import Board         # noqa: F401
-from kicad.pcbnew.drawing import Drawing     # noqa: F401
-from kicad.pcbnew.module import Module       # noqa: F401
-from kicad.pcbnew.pad import Pad             # noqa: F401
-from kicad.pcbnew.track import Track         # noqa: F401
-from kicad.pcbnew.zone import Zone           # noqa: F401
+import sys
+
+try:
+    _pcbnew = __import__('pcbnew')  # We need to import the pcbnew module this way
+except ImportError as e:
+    if 'sphinx' not in sys.modules:
+        raise e
+    else:
+        _pcbnew = None  # in case of sphinx, we do not need KiCad installed

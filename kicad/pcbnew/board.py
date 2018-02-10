@@ -13,12 +13,12 @@
 #
 # (C) 2018 by Thomas Pointhuber, <thomas.pointhuber@gmx.at>
 
-from .drawing import Drawing
-from .module import Module
-from .track import Track
-from .zone import Zone
+from kicad.pcbnew.drawing import Drawing
+from kicad.pcbnew.module import Module
+from kicad.pcbnew.track import Track
+from kicad.pcbnew.zone import Zone
 
-_pcbnew = __import__('pcbnew')  # We need to import the pcbnew module this way, otherwise we try to import us ourself
+from kicad.pcbnew._native import _pcbnew
 
 
 class Board(object):
