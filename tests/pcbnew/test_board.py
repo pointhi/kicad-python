@@ -32,9 +32,9 @@ class BoardTests(unittest.TestCase):
         self.assertIs(b_native, b.get_native())
         self.assertEqual(kicad_pcbnew.BOARD, type(b.get_native()))
 
-    def test_filename(self):
+    def test_filepath(self):
         b = Board()
-        self.assertEqual("", b.filename)
+        self.assertEqual("", b.filepath)
 
-        b.filename = "some_test_filename"
-        self.assertEqual("some_test_filename", b.filename)
+        b.filepath = "path/to/board.kicad_mod"
+        self.assertEqual("path/to/board.kicad_mod", b.filepath)

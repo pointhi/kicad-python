@@ -75,8 +75,8 @@ class Board(object):
         return Board(_pcbnew.LoadBoard(path))
 
     @property
-    def filename(self):
-        """Filename of the Board
+    def filepath(self):
+        """Filepath of the Board
 
         :return: ``str``
 
@@ -84,15 +84,15 @@ class Board(object):
 
         >>> from kicad.pcbnew import Board
         >>> b = Board()
-        >>> b.filename = "example_filename"
-        >>> b.filename
-        u'example_filename'
+        >>> b.filepath = "path/to/board.kicad_mod"
+        >>> b.filepath
+        u'path/to/board.kicad_mod'
         """
         return self._obj.GetFileName()
 
-    @filename.setter
-    def filename(self, filename):
-        self._obj.SetFileName(filename)
+    @filepath.setter
+    def filepath(self, filepath):
+        self._obj.SetFileName(filepath)
 
     @property
     def aux_origin(self):
