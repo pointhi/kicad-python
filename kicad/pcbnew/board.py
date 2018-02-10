@@ -74,18 +74,20 @@ class Board(object):
         """
         return Board(_pcbnew.LoadBoard(path))
 
-    @staticmethod
-    def from_source(source):
-        pass  # TODO: missing
-
-    def save(self):
-        pass  # TODO: missing
-
-    def export(self, path, type):
-        pass  # TODO: missing
-
     @property
     def filename(self):
+        """Filename of the Board
+
+        :return: ``str``
+
+        :Example:
+
+        >>> from kicad.pcbnew import Board
+        >>> b = Board()
+        >>> b.filename = "example_filename"
+        >>> b.filename
+        u'example_filename'
+        """
         return self._obj.GetFileName()
 
     @filename.setter
