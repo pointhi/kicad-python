@@ -20,11 +20,16 @@ before_install:
 install:
   - pip install sphinx sphinx_rtd_theme
 script:
+  # otherwise our scripts do not find pcbnew
+  - export PYTHONPATH=/usr/lib/python2.7/dist-packages
+
   # test code formatting
   - flake8
 
+  # run unittests
+  - ./setup.py test
+
   # test sphinx documentation
-  - export PYTHONPATH=/usr/lib/python2.7/dist-packages # otherwise our scripts do not find pcbnew
   - (cd docs && mkdir -p _static) # otherwise `make html` will return an error
   - (cd docs && make SPHINXBUILD=sphinx-build SPHINXOPTS=-W html)
   - (cd docs && make SPHINXBUILD=sphinx-build SPHINXOPTS=-W doctest)
