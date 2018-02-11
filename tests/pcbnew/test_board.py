@@ -15,7 +15,7 @@
 
 import unittest
 
-import pcbnew as kicad_pcbnew
+import pcbnew as _pcbnew
 from kicad.pcbnew import Board
 
 
@@ -23,18 +23,41 @@ class BoardTests(unittest.TestCase):
 
     def test_init(self):
         b = Board()
-        self.assertEqual(kicad_pcbnew.BOARD, type(b.get_native()))
+        self.assertEqual(_pcbnew.BOARD, type(b.get_native()))
 
     def test_init_param(self):
-        b_native = kicad_pcbnew.BOARD()
+        b_native = _pcbnew.BOARD()
         b = Board(b_native)
 
         self.assertIs(b_native, b.get_native())
-        self.assertEqual(kicad_pcbnew.BOARD, type(b.get_native()))
+        self.assertEqual(_pcbnew.BOARD, type(b.get_native()))
 
     def test_filepath(self):
         b = Board()
         self.assertEqual("", b.filepath)
-
         b.filepath = "path/to/board.kicad_mod"
         self.assertEqual("path/to/board.kicad_mod", b.filepath)
+
+    def test_eq(self):
+        bp = _pcbnew.BOARD()
+        b1 = Board(bp)
+        b2 = Board(bp)
+        self.assertEqual(b1, b2)
+
+    @unittest.skip("Board.from_editor() seems to return a new BOARD object")
+    def test_eq_from_editor(self):
+        b1 = Board.from_editor()
+        b2 = Board.from_editor()
+        self.assertEqual(b1, b2)
+
+    def test_neq(self):
+        b1 = Board()
+        b2 = Board()
+        self.assertNotEqual(b1, b2)
+
+    def test_neq_other_types(self):
+        b1 = Board()
+        # assert has to be done this way, otherwise it will optimize those tests away
+        self.assertTrue(not b1.__eq__(None))
+        self.assertTrue(not b1.__eq__(1))
+        self.assertTrue(not b1.__eq__("foo"))

@@ -45,3 +45,15 @@ class Module(object):
 
     def save_in_lib(library_path):
         pass  # TODO: missing
+
+    def __eq__(self, other):
+        if not isinstance(self, other.__class__):
+            return False
+
+        if not isinstance(self._obj, other._obj.__class__):
+            return False
+
+        if self._obj == other._obj:
+            return True
+        # TODO: SWIG has no working equal operator for objects pointing to the same object!
+        return False
