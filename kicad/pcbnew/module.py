@@ -13,7 +13,7 @@
 #
 # (C) 2018 by Thomas Pointhuber, <thomas.pointhuber@gmx.at>
 
-from kicad.pcbnew._native import _pcbnew
+from kicad._native import _pcbnew
 
 
 class Module(object):

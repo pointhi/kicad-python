@@ -13,9 +13,4 @@
 #
 # (C) 2018 by Thomas Pointhuber, <thomas.pointhuber@gmx.at>
 
-from kicad.pcbnew.board import Board        # noqa: F401
-from kicad.pcbnew.drawing import Drawing    # noqa: F401
-from kicad.pcbnew.module import Module      # noqa: F401
-from kicad.pcbnew.pad import Pad            # noqa: F401
-from kicad.pcbnew.track import Track        # noqa: F401
-from kicad.pcbnew.zone import Zone          # noqa: F401
+from kicad.util.point import Point2D        # noqa: F401

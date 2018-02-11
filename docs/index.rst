@@ -22,6 +22,7 @@ of this idea (thus unstable 3rd-party software).
    :maxdepth: 2
    
    kicad/pcbnew/index
+   kicad/util/index
 
 .. toctree::
    :caption: Examples

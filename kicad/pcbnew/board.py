@@ -18,7 +18,9 @@ from kicad.pcbnew.module import Module
 from kicad.pcbnew.track import Track
 from kicad.pcbnew.zone import Zone
 
-from kicad.pcbnew._native import _pcbnew
+from kicad.util.point import Point2D
+
+from kicad._native import _pcbnew
 
 
 class Board(object):
@@ -96,19 +98,43 @@ class Board(object):
 
     @property
     def aux_origin(self):
-        return self._obj.GetAuxOrigin()  # TODO: format conversation?
+        """Aux origin of Board
+
+        :return: :class:`kicad.util.Point2D`
+
+        :Example:
+
+        >>> from kicad.pcbnew import Board
+        >>> b = Board()
+        >>> b.aux_origin = [1, 2]
+        >>> b.aux_origin
+        Point2D (x=1.0, y=2.0)
+        """
+        return Point2D.from_wxPoint(self._obj.GetAuxOrigin())
 
     @aux_origin.setter
     def aux_origin(self, origin):
-        self._obj.SetAuxOrigin(origin)  # TODO: format conversation?
+        self._obj.SetAuxOrigin(Point2D(origin).to_wxPoint())
 
     @property
     def grid_origin(self):
-        return self._obj.GetGridOrigin()  # TODO: format conversation?
+        """Grid origin of Board
+
+        :return: :class:`kicad.util.Point2D`
+
+        :Example:
+
+        >>> from kicad.pcbnew import Board
+        >>> b = Board()
+        >>> b.grid_origin = [1, 2]
+        >>> b.grid_origin
+        Point2D (x=1.0, y=2.0)
+        """
+        return Point2D.from_wxPoint(self._obj.GetGridOrigin())
 
     @grid_origin.setter
     def grid_origin(self, origin):
-        self._obj.SetGridOrigin(origin)  # TODO: format conversation?
+        self._obj.SetGridOrigin(Point2D(origin).to_wxPoint())
 
     @property
     def modules(self):
@@ -167,7 +193,7 @@ class Board(object):
         if self.filepath != other.filepath:
             return False
 
-        # TODO: now we will do some hack to check if the other object is actually the same. We know filepath is the same
+        # now we will do some hack to check if the other object is actually the same. We know filepath is the same
         old_filepath = self.filepath
         self.filepath += ".eqal_test"
         is_still_same = self.filepath == other.filepath  # TODO: does this actually work?

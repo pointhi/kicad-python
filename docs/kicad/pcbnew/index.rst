@@ -1,5 +1,7 @@
-pcbnew
-======
+kicad.pcbnew
+============
+
+.. automodule:: kicad.pcbnew
 
 .. toctree::
    :maxdepth: 2
