@@ -13,10 +13,13 @@
 #
 # (C) 2018 by Thomas Pointhuber, <thomas.pointhuber@gmx.at>
 
+from kicad._native import _pcbnew
 
-class Drawing(object):
-    def __init__(self, drawing):
-        self._obj = drawing
+
+class Via(object):
+    def __init__(self, via):
+        assert isinstance(via, _pcbnew.VIA)
+        self._obj = via
 
     def get_native(self):
         # TODO: get_repr, get_native, get_internal, ...?
@@ -33,3 +36,6 @@ class Drawing(object):
             return True
         # TODO: SWIG has no working equal operator for objects pointing to the same object!
         return False
+
+    def __repr__(self):
+        return "kicad.pcbnew.Via({})".format(self._obj)

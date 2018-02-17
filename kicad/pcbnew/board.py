@@ -13,7 +13,6 @@
 #
 # (C) 2018 by Thomas Pointhuber, <thomas.pointhuber@gmx.at>
 
-from kicad.pcbnew.drawing import Drawing
 from kicad.pcbnew.module import Module
 from kicad.pcbnew.track import Track
 from kicad.pcbnew.zone import Zone
@@ -21,6 +20,7 @@ from kicad.pcbnew.zone import Zone
 from kicad.util.point import Point2D
 
 from kicad._native import _pcbnew
+from kicad.pcbnew._util import from_board_item
 
 
 class Board(object):
@@ -37,7 +37,7 @@ class Board(object):
     def __init__(self, board=None):
         if board is None:
             board = _pcbnew.BOARD()
-
+        assert isinstance(board, _pcbnew.BOARD)
         self._obj = board
 
     def get_native(self):
@@ -174,7 +174,7 @@ class Board(object):
     def drawings(self):
         it = self._obj.GetDrawings().begin()  # TODO: check
         while it is not None:
-            yield Drawing(it)
+            yield from_board_item(it)
             it = it.Next()
 
     @property

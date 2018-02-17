@@ -8,8 +8,10 @@ kicad.pcbnew
    :glob:
 
    board
-   drawing
+   drawsegment
    module
    pad
+   text
    track
+   via
    zone

@@ -13,9 +13,12 @@
 #
 # (C) 2018 by Thomas Pointhuber, <thomas.pointhuber@gmx.at>
 
+from kicad._native import _pcbnew
+
 
 class Pad(object):
     def __init__(self, pad):
+        assert isinstance(pad, _pcbnew.PAD)
         self._obj = pad
 
     def get_native(self):

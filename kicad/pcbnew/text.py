@@ -16,14 +16,26 @@
 from kicad._native import _pcbnew
 
 
-class Track(object):
-    def __init__(self, track):
-        assert isinstance(track, _pcbnew.TRACK)
-        self._obj = track
+class Text(object):
+    def __init__(self, text):
+        assert isinstance(text, _pcbnew.EDA_TEXT)
+        self._obj = text
 
     def get_native(self):
         # TODO: get_repr, get_native, get_internal, ...?
         return self._obj
+
+    @property
+    def text(self):
+        """Text
+
+        :return: ``unicode``
+        """
+        return self._obj.GetText()
+
+    @text.setter
+    def text(self, value):
+        self._obj.SetText(value)
 
     def __eq__(self, other):
         if not isinstance(self, other.__class__):
@@ -38,4 +50,7 @@ class Track(object):
         return False
 
     def __repr__(self):
-        return "kicad.pcbnew.Track({})".format(self._obj)
+        return "kicad.pcbnew.Text({})".format(self._obj)
+
+    def __str__(self):
+        return "kicad.pcbnew.Text({})".format(repr(self.text))

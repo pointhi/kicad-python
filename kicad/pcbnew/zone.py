@@ -13,9 +13,12 @@
 #
 # (C) 2018 by Thomas Pointhuber, <thomas.pointhuber@gmx.at>
 
+from kicad._native import _pcbnew
+
 
 class Zone(object):
     def __init__(self, zone):
+        assert isinstance(zone, _pcbnew.ZONE)
         self._obj = zone
 
     def get_native(self):
@@ -33,3 +36,6 @@ class Zone(object):
             return True
         # TODO: SWIG has no working equal operator for objects pointing to the same object!
         return False
+
+    def __repr__(self):
+        return "kicad.pcbnew.Zone({})".format(self._obj)

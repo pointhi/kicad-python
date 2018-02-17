@@ -20,6 +20,7 @@ from kicad._native import _pcbnew
 
 class Module(object):
     def __init__(self, module):
+        assert isinstance(module, _pcbnew.BOARD)
         self._obj = module
 
     def get_native(self):

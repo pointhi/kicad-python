@@ -16,14 +16,10 @@
 from kicad._native import _pcbnew
 
 
-class Track(object):
-    def __init__(self, track):
-        assert isinstance(track, _pcbnew.TRACK)
-        self._obj = track
-
-    def get_native(self):
-        # TODO: get_repr, get_native, get_internal, ...?
-        return self._obj
+class Drawsegment(object):
+    def __init__(self, drawsegment):
+        assert isinstance(drawsegment, _pcbnew.DRAWSEGMENT)
+        self._obj = drawsegment
 
     def __eq__(self, other):
         if not isinstance(self, other.__class__):
@@ -38,4 +34,4 @@ class Track(object):
         return False
 
     def __repr__(self):
-        return "kicad.pcbnew.Track({})".format(self._obj)
+        return "kicad.pcbnew.Drawsegment({})".format(self._obj)
