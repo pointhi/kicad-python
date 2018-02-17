@@ -37,8 +37,8 @@ class Pad(object):
         return self._obj.GetName()
 
     @name.setter
-    def name(self, value):
-        self._obj.SetName(value)
+    def name(self, name):
+        self._obj.SetName(name)
 
     def __eq__(self, other):
         if not isinstance(self, other.__class__):

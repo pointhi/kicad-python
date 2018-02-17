@@ -37,8 +37,8 @@ class Text(object):
         return self._obj.GetText()
 
     @text.setter
-    def text(self, value):
-        self._obj.SetText(value)
+    def text(self, text):
+        self._obj.SetText(text)
 
     def __eq__(self, other):
         if not isinstance(self, other.__class__):

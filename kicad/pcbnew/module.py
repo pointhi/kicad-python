@@ -52,8 +52,8 @@ class Module(object):
         return self._obj.GetDescription()
 
     @description.setter
-    def description(self, value):
-        self._obj.SetDescription(value)
+    def description(self, description):
+        self._obj.SetDescription(description)
 
     @property
     def keywords(self):
@@ -64,8 +64,8 @@ class Module(object):
         return self._obj.GetKeywords()
 
     @keywords.setter
-    def keywords(self, value):
-        self._obj.SetKeywords(value)
+    def keywords(self, keywords):
+        self._obj.SetKeywords(keywords)
 
     @property
     def locked(self):
@@ -76,8 +76,8 @@ class Module(object):
         return self._obj.IsLocked()
 
     @locked.setter
-    def locked(self, value):
-        self._obj.SetLocked(value)
+    def locked(self, is_locked):
+        self._obj.SetLocked(is_locked)
 
     @property
     def pads(self):
@@ -97,8 +97,8 @@ class Module(object):
         return self._obj.GetReference()
 
     @reference.setter
-    def reference(self, value):
-        self._obj.SetReference(value)
+    def reference(self, reference):
+        self._obj.SetReference(reference)
 
     @property
     def value(self):
