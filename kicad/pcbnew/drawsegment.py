@@ -55,7 +55,7 @@ class Drawsegment(object):
 class Arc(Drawsegment):
     def __init__(self, arc):
         assert arc.GetShape() is _pcbnew.S_ARC
-        super(Line, self).__init__(arc)
+        super(Arc, self).__init__(arc)
 
     def __repr__(self):
         return "kicad.pcbnew.Arc({})".format(self._obj)
@@ -64,7 +64,7 @@ class Arc(Drawsegment):
 class Circle(Drawsegment):
     def __init__(self, circle):
         assert circle.GetShape() is _pcbnew.S_CIRCLE
-        super(Line, self).__init__(circle)
+        super(Circle, self).__init__(circle)
 
     @property
     def center(self):
