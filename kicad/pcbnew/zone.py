@@ -22,7 +22,10 @@ class Zone(object):
         self._obj = zone
 
     def get_native(self):
-        # TODO: get_repr, get_native, get_internal, ...?
+        """Get native object from the low level API
+
+        :return: :class:`pcbnew.ZONE`
+        """
         return self._obj
 
     def __eq__(self, other):
@@ -36,6 +39,9 @@ class Zone(object):
             return True
         # TODO: SWIG has no working equal operator for objects pointing to the same object!
         return False
+
+    def __ne__(self, other):
+        return not self.__eq__(other)
 
     def __repr__(self):
         return "kicad.pcbnew.Zone({})".format(self._obj)

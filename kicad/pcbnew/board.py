@@ -204,6 +204,9 @@ class Board(object):
         self.filepath = old_filepath
         return is_still_same
 
+    def __ne__(self, other):
+        return not self.__eq__(other)
+
     def __repr__(self):
         return "kicad.pcbnew.Board({})".format(self._obj)
 

@@ -20,11 +20,14 @@ from kicad._native import _pcbnew
 
 class Module(object):
     def __init__(self, module):
-        assert isinstance(module, _pcbnew.BOARD)
+        assert isinstance(module, _pcbnew.MODULE)
         self._obj = module
 
     def get_native(self):
-        # TODO: get_repr, get_native, get_internal, ...?
+        """Get native object from the low level API
+
+        :return: :class:`pcbnew.MODULE`
+        """
         return self._obj
 
     @staticmethod
@@ -128,6 +131,9 @@ class Module(object):
         is_still_same = self.reference == other.reference  # TODO: replace with something better than a hack
         self.reference = old_reference
         return is_still_same
+
+    def __ne__(self, other):
+        return not self.__eq__(other)
 
     def __repr__(self):
         return "kicad.pcbnew.Module({})".format(self._obj)

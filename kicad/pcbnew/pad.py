@@ -22,7 +22,10 @@ class Pad(object):
         self._obj = pad
 
     def get_native(self):
-        # TODO: get_repr, get_native, get_internal, ...?
+        """Get native object from the low level API
+
+        :return: :class:`pcbnew.PAD`
+        """
         return self._obj
 
     @property
@@ -56,6 +59,9 @@ class Pad(object):
         is_still_same = self.name == other.name  # TODO: replace with something better than a hack
         self.name = old_name
         return is_still_same
+
+    def __ne__(self, other):
+        return not self.__eq__(other)
 
     def __repr__(self):
         return "kicad.pcbnew.Pad({})".format(self._obj)

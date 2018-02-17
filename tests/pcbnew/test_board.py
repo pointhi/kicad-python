@@ -57,7 +57,6 @@ class BoardTests(unittest.TestCase):
 
     def test_neq_other_types(self):
         b1 = Board()
-        # assert has to be done this way, otherwise it will optimize those tests away
-        self.assertTrue(not b1.__eq__(None))
-        self.assertTrue(not b1.__eq__(1))
-        self.assertTrue(not b1.__eq__("foo"))
+        self.assertNotEqual(b1, None)
+        self.assertNotEqual(b1, 1)
+        self.assertNotEqual(b1, "foo")

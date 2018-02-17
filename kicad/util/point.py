@@ -110,8 +110,10 @@ class Point2D(object):
     def __eq__(self, other):
         if not isinstance(self, other.__class__):
             return False
-
         return self.x == other.x and self.y == other.y
+
+    def __ne__(self, other):
+        return not self.__eq__(other)
 
     @staticmethod
     def __arithmetic_parse(value):
