@@ -52,68 +52,6 @@ class Drawsegment(object):
             raise NotImplementedError(drawsegment.GetShapeStr())
 
 
-class Line(Drawsegment):
-    def __init__(self, line):
-        assert line.GetShape() is _pcbnew.S_SEGMENT
-        super(Line, self).__init__(line)
-
-    @property
-    def start(self):
-        """Start point of line
-
-        :return: :class:`kicad.util.Point2D`
-        """
-        return Point2D.from_wxPoint(self._obj.GetStart())
-
-    @start.setter
-    def start(self, start):
-        self._obj.SetStart(Point2D(start).to_wxPoint())
-
-    @property
-    def end(self):
-        """End point of line
-
-        :return: :class:`kicad.util.Point2D`
-        """
-        return Point2D.from_wxPoint(self._obj.GetEnd())
-
-    @end.setter
-    def end(self, end):
-        self._obj.SetEnd(Point2D(end).to_wxPoint())
-
-    def __eq__(self, other):
-        if not isinstance(self, other.__class__):
-            return False
-
-        if not isinstance(self._obj, other._obj.__class__):
-            return False
-
-        if self._obj == other._obj:
-            return True
-
-        if not self.start == other.start:
-            return False
-
-        if self.end != other.end:
-            return False
-
-        # now we will do some hack to check if the other object is actually the same. We know start is the same
-        old_start = self.start
-        self.start += [0.1, 0]
-        is_still_same = self.start == other.start  # TODO: replace with something better than a hack
-        self.start = old_start
-        return is_still_same
-
-    def __ne__(self, other):
-        return not self.__eq__(other)
-
-    def __repr__(self):
-        return "kicad.pcbnew.Line({})".format(self._obj)
-
-    def __str__(self):
-        return "kicad.pcbnew.Line(start={}, end={})".format(self.start, self.end)
-
-
 class Arc(Drawsegment):
     def __init__(self, arc):
         assert arc.GetShape() is _pcbnew.S_ARC
@@ -198,3 +136,65 @@ class Circle(Drawsegment):
 
     def __str__(self):
         return "kicad.pcbnew.Circle(center={}, diameter={})".format(self.center, self.diameter)
+
+
+class Line(Drawsegment):
+    def __init__(self, line):
+        assert line.GetShape() is _pcbnew.S_SEGMENT
+        super(Line, self).__init__(line)
+
+    @property
+    def start(self):
+        """Start point of line
+
+        :return: :class:`kicad.util.Point2D`
+        """
+        return Point2D.from_wxPoint(self._obj.GetStart())
+
+    @start.setter
+    def start(self, start):
+        self._obj.SetStart(Point2D(start).to_wxPoint())
+
+    @property
+    def end(self):
+        """End point of line
+
+        :return: :class:`kicad.util.Point2D`
+        """
+        return Point2D.from_wxPoint(self._obj.GetEnd())
+
+    @end.setter
+    def end(self, end):
+        self._obj.SetEnd(Point2D(end).to_wxPoint())
+
+    def __eq__(self, other):
+        if not isinstance(self, other.__class__):
+            return False
+
+        if not isinstance(self._obj, other._obj.__class__):
+            return False
+
+        if self._obj == other._obj:
+            return True
+
+        if not self.start == other.start:
+            return False
+
+        if self.end != other.end:
+            return False
+
+        # now we will do some hack to check if the other object is actually the same. We know start is the same
+        old_start = self.start
+        self.start += [0.1, 0]
+        is_still_same = self.start == other.start  # TODO: replace with something better than a hack
+        self.start = old_start
+        return is_still_same
+
+    def __ne__(self, other):
+        return not self.__eq__(other)
+
+    def __repr__(self):
+        return "kicad.pcbnew.Line({})".format(self._obj)
+
+    def __str__(self):
+        return "kicad.pcbnew.Line(start={}, end={})".format(self.start, self.end)
