@@ -78,7 +78,7 @@ class Module(object):
     @property
     def pads(self):
         """List of Pads present in the Module
-        
+
         :return: Iterator over :class:`kicad.pcbnew.Pad`
         """
         for p in self._obj.Pads():
@@ -99,7 +99,7 @@ class Module(object):
     @property
     def value(self):
         """Value of the Module
-        
+
         :return: ``unicode``
         """
         return self._obj.GetValue()

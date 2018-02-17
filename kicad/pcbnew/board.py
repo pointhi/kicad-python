@@ -139,7 +139,7 @@ class Board(object):
     @property
     def modules(self):
         """List of Modules present in the Board
-        
+
         :return: Iterator over :class:`kicad.pcbnew.Module`
         """
         it = self._obj.GetModules().begin()  # TODO: check

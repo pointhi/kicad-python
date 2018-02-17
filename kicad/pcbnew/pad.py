@@ -25,7 +25,7 @@ class Pad(object):
     @property
     def name(self):
         """Name of the Pad
-        
+
         :return: ``unicode``
         """
         return self._obj.GetName()
