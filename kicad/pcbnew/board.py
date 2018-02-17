@@ -65,7 +65,7 @@ class Board(object):
         """Load a board from a given filepath
 
         :param path: path to the ".kicad_mod" file
-        :type path: ``str``
+        :type path: ``str``, ``unicode``
 
         :return: :class:`kicad.pcbnew.Board`
 
@@ -80,7 +80,7 @@ class Board(object):
     def filepath(self):
         """Filepath of the Board
 
-        :return: ``str``
+        :return: ``unicode``
 
         :Example:
 
@@ -108,7 +108,7 @@ class Board(object):
         >>> b = Board()
         >>> b.aux_origin = [1, 2]
         >>> b.aux_origin
-        Point2D (x=1.0, y=2.0)
+        kicad.util.point.Point2D(1.0, 2.0)
         """
         return Point2D.from_wxPoint(self._obj.GetAuxOrigin())
 
@@ -128,7 +128,7 @@ class Board(object):
         >>> b = Board()
         >>> b.grid_origin = [1, 2]
         >>> b.grid_origin
-        Point2D (x=1.0, y=2.0)
+        kicad.util.point.Point2D(1.0, 2.0)
         """
         return Point2D.from_wxPoint(self._obj.GetGridOrigin())
 
@@ -138,6 +138,10 @@ class Board(object):
 
     @property
     def modules(self):
+        """List of Modules present in the Board
+        
+        :return: Iterator over :class:`kicad.pcbnew.Module`
+        """
         it = self._obj.GetModules().begin()  # TODO: check
         while it is not None:
             yield Module(it)
@@ -199,3 +203,9 @@ class Board(object):
         is_still_same = self.filepath == other.filepath  # TODO: does this actually work?
         self.filepath = old_filepath
         return is_still_same
+
+    def __repr__(self):
+        return "kicad.pcbnew.Board({})".format(self._obj)
+
+    def __str__(self):
+        return "kicad.pcbnew.Board(\"{}\")".format(self.filepath)

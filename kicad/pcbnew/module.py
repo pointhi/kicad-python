@@ -13,14 +13,13 @@
 #
 # (C) 2018 by Thomas Pointhuber, <thomas.pointhuber@gmx.at>
 
+from kicad.pcbnew.pad import Pad
+
 from kicad._native import _pcbnew
 
 
 class Module(object):
-    def __init__(self, module=None):
-        if module is None:
-            module = _pcbnew.MODULE()
-
+    def __init__(self, module):
         self._obj = module
 
     def get_native(self):
@@ -29,7 +28,7 @@ class Module(object):
 
     @staticmethod
     def from_editor():
-        """Get the current board"""
+        """Get the current module"""
         return Module(_pcbnew.GetModule())  # TODO: in footprint editor, working?
 
     @staticmethod
@@ -37,14 +36,77 @@ class Module(object):
         return Module(_pcbnew.LoadModule(path))  # TODO: working?
 
     @staticmethod
-    def from_source(source):
-        pass  # TODO: missing
+    def from_board(board):
+        return Module(_pcbnew.MODULE(board))
 
-    def save_file(path):
-        pass  # TODO: missing
+    @property
+    def description(self):
+        """Description of the Module
 
-    def save_in_lib(library_path):
-        pass  # TODO: missing
+        :return: ``unicode``
+        """
+        return self._obj.GetDescription()
+
+    @description.setter
+    def description(self, value):
+        self._obj.SetDescription(value)
+
+    @property
+    def keywords(self):
+        """Keywords of the Module
+
+        :return: ``unicode``
+        """
+        return self._obj.GetKeywords()
+
+    @keywords.setter
+    def keywords(self, value):
+        self._obj.SetKeywords(value)
+
+    @property
+    def locked(self):
+        """Is Module locked?
+
+        :return: ``bool``
+        """
+        return self._obj.IsLocked()
+
+    @locked.setter
+    def locked(self, value):
+        self._obj.SetLocked(value)
+
+    @property
+    def pads(self):
+        """List of Pads present in the Module
+        
+        :return: Iterator over :class:`kicad.pcbnew.Pad`
+        """
+        for p in self._obj.Pads():
+            yield Pad(p)
+
+    @property
+    def reference(self):
+        """Reference of the Module
+
+        :return: ``unicode``
+        """
+        return self._obj.GetReference()
+
+    @reference.setter
+    def reference(self, value):
+        self._obj.SetReference(value)
+
+    @property
+    def value(self):
+        """Value of the Module
+        
+        :return: ``unicode``
+        """
+        return self._obj.GetValue()
+
+    @value.setter
+    def value(self, value):
+        self._obj.SetValue(value)
 
     def __eq__(self, other):
         if not isinstance(self, other.__class__):
@@ -55,5 +117,19 @@ class Module(object):
 
         if self._obj == other._obj:
             return True
-        # TODO: SWIG has no working equal operator for objects pointing to the same object!
-        return False
+
+        if self.reference != other.reference:
+            return False
+
+        # now we will do some hack to check if the other object is actually the same. We know reference is the same
+        old_reference = self.reference
+        self.reference += "_eqal_test"
+        is_still_same = self.reference == other.reference  # TODO: replace with something better than a hack
+        self.reference = old_reference
+        return is_still_same
+
+    def __repr__(self):
+        return "kicad.pcbnew.Module({})".format(self._obj)
+
+    def __str__(self):
+        return "kicad.pcbnew.Module(\"{}\")".format(self.reference)

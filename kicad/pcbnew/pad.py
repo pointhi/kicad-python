@@ -22,6 +22,18 @@ class Pad(object):
         # TODO: get_repr, get_native, get_internal, ...?
         return self._obj
 
+    @property
+    def name(self):
+        """Name of the Pad
+        
+        :return: ``unicode``
+        """
+        return self._obj.GetName()
+
+    @name.setter
+    def name(self, value):
+        self._obj.SetName(value)
+
     def __eq__(self, other):
         if not isinstance(self, other.__class__):
             return False
@@ -31,5 +43,19 @@ class Pad(object):
 
         if self._obj == other._obj:
             return True
-        # TODO: SWIG has no working equal operator for objects pointing to the same object!
-        return False
+
+        if self.name != other.name:
+            return False
+
+        # now we will do some hack to check if the other object is actually the same. We know name is the same
+        old_name = self.name
+        self.name += "_eqal_test"
+        is_still_same = self.name == other.name  # TODO: replace with something better than a hack
+        self.name = old_name
+        return is_still_same
+
+    def __repr__(self):
+        return "kicad.pcbnew.Pad({})".format(self._obj)
+
+    def __str__(self):
+        return "kicad.pcbnew.Pad(\"{}\")".format(self.name)

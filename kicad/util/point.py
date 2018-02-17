@@ -23,15 +23,15 @@ class Point2D(object):
 
     >>> from kicad.util.point import Point2D
     >>> Point2D(0, 1)
-    Point2D (x=0.0, y=1.0)
+    kicad.util.point.Point2D(0.0, 1.0)
     >>> Point2D([2, 3])
-    Point2D (x=2.0, y=3.0)
+    kicad.util.point.Point2D(2.0, 3.0)
     >>> Point2D((4, 5))
-    Point2D (x=4.0, y=5.0)
+    kicad.util.point.Point2D(4.0, 5.0)
     >>> Point2D({'x': 6, 'y':7})
-    Point2D (x=6.0, y=7.0)
+    kicad.util.point.Point2D(6.0, 7.0)
     >>> Point2D(Point2D(8, 9))
-    Point2D (x=8.0, y=9.0)
+    kicad.util.point.Point2D(8.0, 9.0)
     """
     def __init__(self, coordinates=None, y=None):
         # parse constructor
@@ -99,7 +99,7 @@ class Point2D(object):
 
         >>> from kicad.util.point import Point2D
         >>> Point2D(0.1234, 0.5678).round_to(0.01)
-        Point2D (x=0.12, y=0.57)
+        kicad.util.point.Point2D(0.12, 0.57)
         """
         if base == 0:
             return self
@@ -153,7 +153,7 @@ class Point2D(object):
         return {'x': self.x, 'y': self.y}
 
     def __repr__(self):
-        return "Point2D (x={x}, y={y})".format(**self.__dict__())
+        return "kicad.util.point.Point2D({x}, {y})".format(**self.__dict__())
 
     def __str__(self):
-        return "(x={x}, y={y})".format(**self.__dict__())
+        return "[{x}, {y}]".format(**self.__dict__())
