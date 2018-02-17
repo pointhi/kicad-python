@@ -34,7 +34,7 @@ def from_board_item(board_item):
 
     elif item_type is _pcbnew.DRAWSEGMENT:
         from kicad.pcbnew.drawsegment import Drawsegment
-        return Drawsegment(item)
+        return Drawsegment.from_drawsegment(item)
 
     elif item_type is _pcbnew.EDGE_MODULE:
         raise NotImplementedError(item_type)
