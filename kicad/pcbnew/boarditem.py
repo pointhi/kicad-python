@@ -71,11 +71,11 @@ def from_board_item(board_item):
 
 
 class BoardItem(object):
-    """Create a new Board object
+    """Create a new BoardItem object
 
-        :param board_item: already existing board_item object
-        :type board_item: :class:`pcbnew.BOARD_ITEM`
-        """
+    :param board_item: already existing board_item object
+    :type board_item: :class:`pcbnew.BOARD_ITEM`
+    """
 
     def __init__(self, board_item):
         assert isinstance(board_item, _pcbnew.BOARD_ITEM)
