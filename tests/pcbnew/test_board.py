@@ -14,9 +14,14 @@
 # (C) 2018 by Thomas Pointhuber, <thomas.pointhuber@gmx.at>
 
 import unittest
+import os
 
 import pcbnew as _pcbnew
 from kicad.pcbnew import Board
+
+
+TEST_PROJECT_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'testproject')
+TEST_PROJECT_FILE = os.path.join(TEST_PROJECT_DIR, 'testproject.kicad_pcb')
 
 
 class BoardTests(unittest.TestCase):
@@ -24,6 +29,16 @@ class BoardTests(unittest.TestCase):
     def test_init(self):
         b = Board()
         self.assertEqual(_pcbnew.BOARD, type(b.get_native()))
+
+    def test_from_file(self):
+        b = Board.from_file(TEST_PROJECT_FILE)
+        self.assertEqual(TEST_PROJECT_FILE, b.filepath)
+
+    def test_from_file_not_existing(self):
+        self.assertRaises(IOError, Board.from_file, os.path.join(TEST_PROJECT_DIR, 'not_existing.kicad_pcb'))
+
+    def test_from_file_invalid(self):
+        self.assertRaises(IOError, Board.from_file, os.path.join(TEST_PROJECT_DIR, 'testproject.pro'))
 
     def test_init_param(self):
         b_native = _pcbnew.BOARD()
