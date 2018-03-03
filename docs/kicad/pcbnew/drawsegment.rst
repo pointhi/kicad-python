@@ -27,3 +27,10 @@ Line
 .. autoclass:: kicad.pcbnew.Line
    :members:
    :inherited-members:
+
+Polygon
+=======
+
+.. autoclass:: kicad.pcbnew.Polygon
+   :members:
+   :inherited-members:

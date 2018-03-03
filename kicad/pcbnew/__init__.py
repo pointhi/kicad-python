@@ -19,6 +19,9 @@ from kicad.pcbnew.drawsegment import Drawsegment    # noqa: F401
 from kicad.pcbnew.drawsegment import Arc            # noqa: F401
 from kicad.pcbnew.drawsegment import Circle         # noqa: F401
 from kicad.pcbnew.drawsegment import Line           # noqa: F401
+from kicad.pcbnew.drawsegment import Polygon        # noqa: F401
+
+from kicad.pcbnew.layer import Layer                # noqa: F401
 
 from kicad.pcbnew.module import Module              # noqa: F401
 

@@ -2,7 +2,7 @@
 
   (general
     (thickness 1.6)
-    (drawings 22)
+    (drawings 21)
     (tracks 31)
     (zones 0)
     (modules 8)
@@ -959,7 +959,6 @@
   (target plus (at 167 84) (size 5) (width 0.15) (layer Edge.Cuts) (tstamp 5AA9DAA8))
   (target plus (at 131 84) (size 5) (width 0.15) (layer Edge.Cuts))
   (gr_poly (pts (xy 163 97.5) (xy 158 97.5) (xy 158 100) (xy 163 100)) (layer B.SilkS) (width 0.15))
-  (gr_poly (pts (xy 158.5 96) (xy 162.5 96) (xy 162.5 100.5) (xy 158.5 100.5)) (layer F.Cu) (width 0.15))
   (gr_text TEST (at 160.5 99) (layer F.SilkS)
     (effects (font (size 1.5 1.5) (thickness 0.3)))
   )

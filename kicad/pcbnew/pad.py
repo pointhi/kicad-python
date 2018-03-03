@@ -20,7 +20,7 @@ from kicad._native import _pcbnew
 
 class Pad(BoardItem):
     def __init__(self, pad):
-        assert isinstance(pad, _pcbnew.PAD)
+        assert isinstance(pad, _pcbnew.D_PAD)
         super(Pad, self).__init__(pad)
 
     def get_native(self):

@@ -14,6 +14,7 @@
 # (C) 2018 by Thomas Pointhuber, <thomas.pointhuber@gmx.at>
 
 from kicad.pcbnew.boarditem import BoardItem
+from kicad.pcbnew.layer import Layer
 
 from kicad._native import _pcbnew
 
@@ -29,6 +30,19 @@ class Text(BoardItem):
         :return: :class:`pcbnew.EDA_TEXT`
         """
         return self._obj
+
+    @property
+    def layer(self):
+        """layer of the drawsegment
+
+        :return: :class:`kicad.pcbnew.Layer`
+        """
+        return Layer(self._obj)
+
+    @layer.setter
+    def layer(self, layer):
+        assert type(layer) is Layer
+        self._obj.SetLayer(layer.id)
 
     @property
     def text(self):
@@ -61,4 +75,4 @@ class Text(BoardItem):
         return "kicad.pcbnew.Text({})".format(self._obj)
 
     def __str__(self):
-        return "kicad.pcbnew.Text({})".format(repr(self.text))
+        return "kicad.pcbnew.Text({}, layer=\"{}\")".format(repr(self.text), self.layer.name)

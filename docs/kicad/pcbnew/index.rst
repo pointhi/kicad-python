@@ -9,6 +9,7 @@ kicad.pcbnew
 
    board
    drawsegment
+   layer
    module
    pad
    text

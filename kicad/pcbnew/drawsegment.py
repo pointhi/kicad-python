@@ -14,6 +14,7 @@
 # (C) 2018 by Thomas Pointhuber, <thomas.pointhuber@gmx.at>
 
 from kicad.pcbnew.boarditem import BoardItem
+from kicad.pcbnew.layer import Layer
 
 from kicad.util.point import Point2D
 
@@ -46,12 +47,40 @@ class Drawsegment(BoardItem):
             return Arc(drawsegment)
         elif shape is _pcbnew.S_CIRCLE:
             return Circle(drawsegment)
-        # elif shape is _pcbnew.S_POLYGON:
-        #    return Polygone(drawsegment)
+        elif shape is _pcbnew.S_POLYGON:
+            return Polygon(drawsegment)
         # elif shape is _pcbnew.S_CURVE:
         #    return Curve(drawsegment)
         else:
             raise NotImplementedError(drawsegment.GetShapeStr())
+
+    @property
+    def layer(self):
+        """layer of the drawsegment
+
+        :return: :class:`kicad.pcbnew.Layer`
+        """
+        return Layer(self._obj)
+
+    @layer.setter
+    def layer(self, layer):
+        assert type(layer) is Layer
+        self._obj.SetLayer(layer.id)
+
+    @property
+    def width(self):
+        """Width of line in mm
+
+        :return: ``float``
+        """
+        return _pcbnew.ToMM(self._obj.GetWidth())
+
+    @width.setter
+    def width(self, width):
+        self._obj.SetWidth(_pcbnew.FromMM(width))
+
+    def __repr__(self):
+        return "kicad.pcbnew.Drawsegment({})".format(self._obj)
 
 
 class Arc(Drawsegment):
@@ -59,8 +88,52 @@ class Arc(Drawsegment):
         assert arc.GetShape() is _pcbnew.S_ARC
         super(Arc, self).__init__(arc)
 
+    @property
+    def angle(self):
+        """angle of arc in degree
+
+        :return: ``float``
+        """
+        return self._obj.GetAngle() / 10.
+
+    @angle.setter
+    def angle(self, angle):
+        assert type(angle) in [int, float]
+        self._obj.SetAngle(angle * 10.)
+
+    @property
+    def center(self):
+        """Center point of arc
+
+        :return: :class:`kicad.util.Point2D`
+        """
+        return Point2D.from_wxPoint(self._obj.GetCenter())
+
+    @center.setter
+    def center(self, center):
+        self._obj.SetCenter(Point2D(center).to_wxPoint())
+
+    @property
+    def start(self):
+        """Start point of arc
+
+        :return: :class:`kicad.util.Point2D`
+        """
+        return Point2D.from_wxPoint(self._obj.GetStart())
+
+    @start.setter
+    def start(self, start):
+        self._obj.SetStart(Point2D(start).to_wxPoint())
+
     def __repr__(self):
         return "kicad.pcbnew.Arc({})".format(self._obj)
+
+    def __str__(self):
+        return "kicad.pcbnew.Arc(center={}, start={}, angle={}, width={}, layer=\"{}\")".format(self.center,
+                                                                                                self.start,
+                                                                                                self.angle,
+                                                                                                self.width,
+                                                                                                self.layer.name)
 
 
 class Circle(Drawsegment):
@@ -100,7 +173,7 @@ class Circle(Drawsegment):
         """
         end = Point2D.from_wxPoint(self._obj.GetEnd())
         diff = self.center - end
-        return min(diff.x, diff.y)
+        return max(abs(diff.x), abs(diff.y))
 
     @radius.setter
     def radius(self, radius):
@@ -137,7 +210,10 @@ class Circle(Drawsegment):
         return "kicad.pcbnew.Circle({})".format(self._obj)
 
     def __str__(self):
-        return "kicad.pcbnew.Circle(center={}, diameter={})".format(self.center, self.diameter)
+        return "kicad.pcbnew.Circle(center={}, diameter={}, width={}, layer=\"{}\")".format(self.center,
+                                                                                            self.diameter,
+                                                                                            self.width,
+                                                                                            self.layer.name)
 
 
 class Line(Drawsegment):
@@ -199,4 +275,19 @@ class Line(Drawsegment):
         return "kicad.pcbnew.Line({})".format(self._obj)
 
     def __str__(self):
-        return "kicad.pcbnew.Line(start={}, end={})".format(self.start, self.end)
+        return "kicad.pcbnew.Line(start={}, end={}, width={}, layer=\"{}\")".format(self.start,
+                                                                                    self.end,
+                                                                                    self.width,
+                                                                                    self.layer.name)
+
+
+class Polygon(Drawsegment):
+    def __init__(self, polygon):
+        assert polygon.GetShape() is _pcbnew.S_POLYGON
+        super(Polygon, self).__init__(polygon)
+
+    def __repr__(self):
+        return "kicad.pcbnew.Polygon({})".format(self._obj)
+
+    def __str__(self):
+        return "kicad.pcbnew.Polygon(layer=\"{}\")".format(self.layer.name)
