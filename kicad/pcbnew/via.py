@@ -30,20 +30,5 @@ class Via(BoardItem):
         """
         return self._obj
 
-    def __eq__(self, other):
-        if not isinstance(self, other.__class__):
-            return False
-
-        if not isinstance(self._obj, other._obj.__class__):
-            return False
-
-        if self._obj == other._obj:
-            return True
-        # TODO: SWIG has no working equal operator for objects pointing to the same object!
-        return False
-
-    def __ne__(self, other):
-        return not self.__eq__(other)
-
     def __repr__(self):
         return "kicad.pcbnew.Via({})".format(self._obj)

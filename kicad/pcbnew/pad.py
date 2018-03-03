@@ -42,29 +42,6 @@ class Pad(BoardItem):
     def name(self, name):
         self._obj.SetName(name)
 
-    def __eq__(self, other):
-        if not isinstance(self, other.__class__):
-            return False
-
-        if not isinstance(self._obj, other._obj.__class__):
-            return False
-
-        if self._obj == other._obj:
-            return True
-
-        if self.name != other.name:
-            return False
-
-        # now we will do some hack to check if the other object is actually the same. We know name is the same
-        old_name = self.name
-        self.name += "_eqal_test"
-        is_still_same = self.name == other.name  # TODO: replace with something better than a hack
-        self.name = old_name
-        return is_still_same
-
-    def __ne__(self, other):
-        return not self.__eq__(other)
-
     def __repr__(self):
         return "kicad.pcbnew.Pad({})".format(self._obj)
 

@@ -180,32 +180,6 @@ class Circle(Drawsegment):
         point2d_radius = self.center + Point2D(radius, radius)
         self._obj.SetCenter(point2d_radius.to_wxPoint())
 
-    def __eq__(self, other):
-        if not isinstance(self, other.__class__):
-            return False
-
-        if not isinstance(self._obj, other._obj.__class__):
-            return False
-
-        if self._obj == other._obj:
-            return True
-
-        if not self.center == other.center:
-            return False
-
-        if self.radius != other.radius:
-            return False
-
-        # now we will do some hack to check if the other object is actually the same. We know center is the same
-        old_center = self.center
-        self.center += [0.1, 0]
-        is_still_same = self.center == other.center  # TODO: replace with something better than a hack
-        self.center = old_center
-        return is_still_same
-
-    def __ne__(self, other):
-        return not self.__eq__(other)
-
     def __repr__(self):
         return "kicad.pcbnew.Circle({})".format(self._obj)
 
@@ -244,32 +218,6 @@ class Line(Drawsegment):
     @end.setter
     def end(self, end):
         self._obj.SetEnd(Point2D(end).to_wxPoint())
-
-    def __eq__(self, other):
-        if not isinstance(self, other.__class__):
-            return False
-
-        if not isinstance(self._obj, other._obj.__class__):
-            return False
-
-        if self._obj == other._obj:
-            return True
-
-        if not self.start == other.start:
-            return False
-
-        if self.end != other.end:
-            return False
-
-        # now we will do some hack to check if the other object is actually the same. We know start is the same
-        old_start = self.start
-        self.start += [0.1, 0]
-        is_still_same = self.start == other.start  # TODO: replace with something better than a hack
-        self.start = old_start
-        return is_still_same
-
-    def __ne__(self, other):
-        return not self.__eq__(other)
 
     def __repr__(self):
         return "kicad.pcbnew.Line({})".format(self._obj)

@@ -102,29 +102,6 @@ class Module(BoardItem):
     def value(self, value):
         self._obj.SetValue(value)
 
-    def __eq__(self, other):
-        if not isinstance(self, other.__class__):
-            return False
-
-        if not isinstance(self._obj, other._obj.__class__):
-            return False
-
-        if self._obj == other._obj:
-            return True
-
-        if self.reference != other.reference:
-            return False
-
-        # now we will do some hack to check if the other object is actually the same. We know reference is the same
-        old_reference = self.reference
-        self.reference += "_eqal_test"
-        is_still_same = self.reference == other.reference  # TODO: replace with something better than a hack
-        self.reference = old_reference
-        return is_still_same
-
-    def __ne__(self, other):
-        return not self.__eq__(other)
-
     def __repr__(self):
         return "kicad.pcbnew.Module({})".format(self._obj)
 
