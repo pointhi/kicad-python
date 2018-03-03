@@ -38,7 +38,7 @@ class Layer(object):
     def name(self):
         """name of the layer
 
-        :return: ``str``
+        :return: ``unicode``
         """
         return self._obj.GetLayerName()
 

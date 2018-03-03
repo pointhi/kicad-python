@@ -8,6 +8,7 @@ kicad.pcbnew
    :glob:
 
    board
+   dimension
    drawsegment
    layer
    module

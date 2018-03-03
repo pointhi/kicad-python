@@ -30,7 +30,8 @@ def from_board_item(board_item):
         return Board(item)
 
     elif item_type is _pcbnew.DIMENSION:
-        raise NotImplementedError(item_type)
+        from kicad.pcbnew.dimension import Dimension
+        return Dimension(item)
 
     elif item_type is _pcbnew.DRAWSEGMENT:
         from kicad.pcbnew.drawsegment import Drawsegment
