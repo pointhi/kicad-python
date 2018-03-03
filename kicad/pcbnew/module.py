@@ -60,6 +60,7 @@ class Module(BoardItem):
     @property
     def keywords(self):
         """Keywords of the Module
+
         :return: ``unicode``
         """
         return self._obj.GetKeywords()
