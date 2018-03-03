@@ -5,6 +5,7 @@ Drawsegment
 
 .. autoclass:: kicad.pcbnew.Drawsegment
    :members:
+   :inherited-members:
 
 Arc
 ===

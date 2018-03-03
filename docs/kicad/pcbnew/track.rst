@@ -5,3 +5,4 @@ Track
 
 .. autoclass:: kicad.pcbnew.Track
    :members:
+   :inherited-members:

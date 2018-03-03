@@ -13,15 +13,17 @@
 #
 # (C) 2018 by Thomas Pointhuber, <thomas.pointhuber@gmx.at>
 
+from kicad.pcbnew.boarditem import BoardItem
+
 from kicad.pcbnew.pad import Pad
 
 from kicad._native import _pcbnew
 
 
-class Module(object):
+class Module(BoardItem):
     def __init__(self, module):
         assert isinstance(module, _pcbnew.MODULE)
-        self._obj = module
+        super(Module, self).__init__(module)
 
     def get_native(self):
         """Get native object from the low level API
@@ -58,7 +60,6 @@ class Module(object):
     @property
     def keywords(self):
         """Keywords of the Module
-
         :return: ``unicode``
         """
         return self._obj.GetKeywords()
@@ -66,18 +67,6 @@ class Module(object):
     @keywords.setter
     def keywords(self, keywords):
         self._obj.SetKeywords(keywords)
-
-    @property
-    def locked(self):
-        """Is Module locked?
-
-        :return: ``bool``
-        """
-        return self._obj.IsLocked()
-
-    @locked.setter
-    def locked(self, is_locked):
-        self._obj.SetLocked(is_locked)
 
     @property
     def pads(self):

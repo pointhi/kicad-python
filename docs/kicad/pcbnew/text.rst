@@ -5,3 +5,4 @@ Text
 
 .. autoclass:: kicad.pcbnew.Text
    :members:
+   :inherited-members:

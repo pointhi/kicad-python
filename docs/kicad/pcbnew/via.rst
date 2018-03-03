@@ -5,3 +5,4 @@ Via
 
 .. autoclass:: kicad.pcbnew.Via
    :members:
+   :inherited-members:

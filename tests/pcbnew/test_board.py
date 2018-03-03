@@ -41,7 +41,7 @@ class BoardTests(unittest.TestCase):
     def test_eq(self):
         bp = _pcbnew.BOARD()
         b1 = Board(bp)
-        b2 = Board(bp)
+        b2 = Board(bp.GetBoard())
         self.assertEqual(b1, b2)
 
     @unittest.skip("Board.from_editor() seems to return a new BOARD object")

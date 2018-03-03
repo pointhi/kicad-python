@@ -13,13 +13,15 @@
 #
 # (C) 2018 by Thomas Pointhuber, <thomas.pointhuber@gmx.at>
 
+from kicad.pcbnew.boarditem import BoardItem
+
 from kicad._native import _pcbnew
 
 
-class Text(object):
+class Text(BoardItem):
     def __init__(self, text):
         assert isinstance(text, _pcbnew.EDA_TEXT)
-        self._obj = text
+        super(Text, self).__init__(text)
 
     def get_native(self):
         """Get native object from the low level API

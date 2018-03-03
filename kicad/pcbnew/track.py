@@ -13,13 +13,15 @@
 #
 # (C) 2018 by Thomas Pointhuber, <thomas.pointhuber@gmx.at>
 
+from kicad.pcbnew.boarditem import BoardItem
+
 from kicad._native import _pcbnew
 
 
-class Track(object):
+class Track(BoardItem):
     def __init__(self, track):
         assert isinstance(track, _pcbnew.TRACK)
-        self._obj = track
+        super(Track, self).__init__(track)
 
     def get_native(self):
         """Get native object from the low level API

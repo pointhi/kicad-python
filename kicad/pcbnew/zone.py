@@ -13,13 +13,15 @@
 #
 # (C) 2018 by Thomas Pointhuber, <thomas.pointhuber@gmx.at>
 
+from kicad.pcbnew.boarditem import BoardItem
+
 from kicad._native import _pcbnew
 
 
-class Zone(object):
+class Zone(BoardItem):
     def __init__(self, zone):
         assert isinstance(zone, _pcbnew.ZONE)
-        self._obj = zone
+        super(Zone, self).__init__(zone)
 
     def get_native(self):
         """Get native object from the low level API

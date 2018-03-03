@@ -5,3 +5,4 @@ Pad
 
 .. autoclass:: kicad.pcbnew.Pad
    :members:
+   :inherited-members:

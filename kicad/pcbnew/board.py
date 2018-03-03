@@ -13,6 +13,8 @@
 #
 # (C) 2018 by Thomas Pointhuber, <thomas.pointhuber@gmx.at>
 
+from kicad.pcbnew.boarditem import BoardItem, from_board_item
+
 from kicad.pcbnew.module import Module
 from kicad.pcbnew.track import Track
 from kicad.pcbnew.zone import Zone
@@ -20,10 +22,9 @@ from kicad.pcbnew.zone import Zone
 from kicad.util.point import Point2D
 
 from kicad._native import _pcbnew
-from kicad.pcbnew._util import from_board_item
 
 
-class Board(object):
+class Board(BoardItem):
     """Create a new Board object
 
     :param board: already existing board object
@@ -38,7 +39,7 @@ class Board(object):
         if board is None:
             board = _pcbnew.BOARD()
         assert isinstance(board, _pcbnew.BOARD)
-        self._obj = board
+        super(Board, self).__init__(board)
 
     def get_native(self):
         """Get native object from the low level API
@@ -180,32 +181,6 @@ class Board(object):
     @property
     def layers_enabled(self):
         return self._obj.GetEnabledLayers()  # TODO: add wrapper and setter
-
-    def __eq__(self, other):
-        if not isinstance(self, other.__class__):
-            return False
-
-        if not isinstance(self._obj, other._obj.__class__):
-            return False
-
-        if self._obj == other._obj:
-            return True
-
-        if self._obj.GetNumSegmTrack() != other._obj.GetNumSegmTrack():
-            return False
-
-        if self.filepath != other.filepath:
-            return False
-
-        # now we will do some hack to check if the other object is actually the same. We know filepath is the same
-        old_filepath = self.filepath
-        self.filepath += ".eqal_test"
-        is_still_same = self.filepath == other.filepath  # TODO: does this actually work?
-        self.filepath = old_filepath
-        return is_still_same
-
-    def __ne__(self, other):
-        return not self.__eq__(other)
 
     def __repr__(self):
         return "kicad.pcbnew.Board({})".format(self._obj)

@@ -5,4 +5,5 @@ Board
 
 .. autoclass:: kicad.pcbnew.Board
    :members:
+   :inherited-members:
 

@@ -13,13 +13,15 @@
 #
 # (C) 2018 by Thomas Pointhuber, <thomas.pointhuber@gmx.at>
 
+from kicad.pcbnew.boarditem import BoardItem
+
 from kicad._native import _pcbnew
 
 
-class Via(object):
+class Via(BoardItem):
     def __init__(self, via):
         assert isinstance(via, _pcbnew.VIA)
-        self._obj = via
+        super(Via, self).__init__(via)
 
     def get_native(self):
         """Get native object from the low level API

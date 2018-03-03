@@ -13,15 +13,17 @@
 #
 # (C) 2018 by Thomas Pointhuber, <thomas.pointhuber@gmx.at>
 
+from kicad.pcbnew.boarditem import BoardItem
+
 from kicad.util.point import Point2D
 
 from kicad._native import _pcbnew
 
 
-class Drawsegment(object):
+class Drawsegment(BoardItem):
     def __init__(self, drawsegment):
         assert isinstance(drawsegment, _pcbnew.DRAWSEGMENT)
-        self._obj = drawsegment
+        super(Drawsegment, self).__init__(drawsegment)
 
     def get_native(self):
         """Get native object from the low level API

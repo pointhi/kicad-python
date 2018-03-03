@@ -5,3 +5,4 @@ Module
 
 .. autoclass:: kicad.pcbnew.Module
    :members:
+   :inherited-members:
