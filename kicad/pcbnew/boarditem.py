@@ -61,7 +61,8 @@ def from_board_item(board_item):
         return Track(item)
 
     elif item_type is _pcbnew.PCB_TARGET:
-        raise NotImplementedError(item_type)
+        from kicad.pcbnew.pcbtarget import PcbTarget
+        return PcbTarget(item)
 
     elif item_type is _pcbnew.ZONE_CONTAINER:
         from kicad.pcbnew.zone import Zone

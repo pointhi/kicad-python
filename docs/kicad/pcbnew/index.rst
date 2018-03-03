@@ -13,6 +13,7 @@ kicad.pcbnew
    layer
    module
    pad
+   pcbtarget
    text
    track
    via

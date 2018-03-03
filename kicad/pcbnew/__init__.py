@@ -29,6 +29,8 @@ from kicad.pcbnew.module import Module              # noqa: F401
 
 from kicad.pcbnew.pad import Pad                    # noqa: F401
 
+from kicad.pcbnew.pcbtarget import PcbTarget        # noqa: F401
+
 from kicad.pcbnew.text import Text                  # noqa: F401
 
 from kicad.pcbnew.track import Track                # noqa: F401
