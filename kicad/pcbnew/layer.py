@@ -27,6 +27,7 @@ except ImportError as e:
     else:
         _pcbnew = None  # in case of sphinx, we do not need KiCad installed
 
+
 class Layer(object):
     def __init__(self, board_item):
         assert isinstance(board_item, _pcbnew.BOARD_ITEM)
