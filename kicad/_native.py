@@ -23,5 +23,11 @@ except ImportError as e:
     else:
         class PcbnewDummy(object):
             PCB_LAYER_ID_COUNT = 0
+            PLOT_FORMAT_HPGL = None
+            PLOT_FORMAT_GERBER = None
+            PLOT_FORMAT_POST = None
+            PLOT_FORMAT_DXF = None
+            PLOT_FORMAT_PDF = None
+            PLOT_FORMAT_SVG = None
 
         _pcbnew = PcbnewDummy()

@@ -23,6 +23,11 @@ from kicad._native import _pcbnew
 # https://scottbezek.blogspot.co.at/2016/04/scripting-kicad-pcbnew-exports.html
 
 class Plotter(object):
+    PLOT_FORMAT_HPGL = _pcbnew.PLOT_FORMAT_HPGL
+    PLOT_FORMAT_GERBER = _pcbnew.PLOT_FORMAT_GERBER
+    PLOT_FORMAT_POSTSCRIPT = _pcbnew.PLOT_FORMAT_POST
+    PLOT_FORMAT_DXF = _pcbnew.PLOT_FORMAT_DXF
+    PLOT_FORMAT_PDF = _pcbnew.PLOT_FORMAT_PDF
     PLOT_FORMAT_SVG = _pcbnew.PLOT_FORMAT_SVG
 
     def __init__(self, board, layer=None, color_mode=None):
