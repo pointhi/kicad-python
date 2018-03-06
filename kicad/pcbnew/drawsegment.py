@@ -14,7 +14,7 @@
 # (C) 2018 by Thomas Pointhuber, <thomas.pointhuber@gmx.at>
 
 from kicad.pcbnew.boarditem import BoardItem
-from kicad.pcbnew.layer import Layer
+from kicad.pcbnew.layer import Layer, BoardItemLayer
 
 from kicad.util.point import Point2D
 
@@ -60,7 +60,7 @@ class Drawsegment(BoardItem):
 
         :return: :class:`kicad.pcbnew.Layer`
         """
-        return Layer(self._obj)
+        return BoardItemLayer(self._obj)
 
     @layer.setter
     def layer(self, layer):
