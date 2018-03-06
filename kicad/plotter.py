@@ -111,7 +111,7 @@ class Plotter(object):
     def layer(self):
         """layer to plot on
 
-        :return: ``Layer``
+        :return: :class:`kicad.pcbnew.Layer`
         """
         return Layer.from_id(self._pctl.GetLayer())
 
