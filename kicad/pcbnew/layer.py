@@ -13,19 +13,10 @@
 #
 # (C) 2018 by Thomas Pointhuber, <thomas.pointhuber@gmx.at>
 
-import sys
-
 from kicad._native import _pcbnew
 
-
-try:
-    # dict for converting layer names to id
-    LAYERS = {_pcbnew.BOARD_GetStandardLayerName(n): n for n in range(_pcbnew.PCB_LAYER_ID_COUNT)}
-except ImportError as e:
-    if 'sphinx' not in sys.modules:
-        raise e
-    else:
-        _pcbnew = None  # in case of sphinx, we do not need KiCad installed
+# dict for converting layer names to id
+LAYERS = {_pcbnew.BOARD_GetStandardLayerName(n): n for n in range(_pcbnew.PCB_LAYER_ID_COUNT)}
 
 
 class Layer(object):

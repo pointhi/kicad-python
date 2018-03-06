@@ -21,4 +21,7 @@ except ImportError as e:
     if 'sphinx' not in sys.modules:
         raise e
     else:
-        _pcbnew = None  # in case of sphinx, we do not need KiCad installed
+        class PcbnewDummy(object):
+            PCB_LAYER_ID_COUNT = 0
+
+        _pcbnew = PcbnewDummy()
