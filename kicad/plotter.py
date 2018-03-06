@@ -80,6 +80,7 @@ class Plotter(object):
         >>> b = Board.from_editor()
         >>> p = Plotter(b, layer=Layer.from_id(0))
         >>> p.open('test', Plotter.PLOT_FORMAT_SVG)
+        kicad.plotter.Plotter(board="")
         >>> p.plot_layer()# doctest: +SKIP
         >>> p.close()
         """
@@ -133,7 +134,7 @@ class Plotter(object):
         self.close()
 
     def __repr__(self):
-        return "kicad.plotter.Plotter(board={})".format(self._board)
+        return "kicad.plotter.Plotter(board=\"{}\")".format(self._board.filepath)
 
     def __str__(self):
         return "kicad.plotter.Plotter(layer=\"{}\")".format(self.layer.name)
