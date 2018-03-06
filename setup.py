@@ -1,6 +1,7 @@
 #!/usr/bin/env python2
 
 from setuptools import setup
+from setuptools import find_packages
 
 setup(
     name='kicad',
@@ -17,7 +18,7 @@ setup(
     license="GPL3+",
 
     install_requires=[],
-    packages=['kicad'],
+    packages=find_packages('.', exclude=["tests*", "examples*"]),
     package_data={'': ['gdot.glade']},
     entry_points=dict(gui_scripts=['gdot=gdot.gdot:main']),
     test_suite='tests',
