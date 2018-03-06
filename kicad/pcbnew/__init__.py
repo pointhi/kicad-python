@@ -27,6 +27,8 @@ from kicad.pcbnew.layer import Layer                # noqa: F401
 
 from kicad.pcbnew.module import Module              # noqa: F401
 
+from kicad.pcbnew.net import Net                    # noqa: F401
+
 from kicad.pcbnew.pad import Pad                    # noqa: F401
 
 from kicad.pcbnew.pcbtarget import PcbTarget        # noqa: F401

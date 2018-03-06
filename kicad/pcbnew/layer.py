@@ -15,6 +15,9 @@
 
 from kicad._native import _pcbnew
 
+# dict for converting layer names to id
+LAYERS = {_pcbnew.BOARD_GetStandardLayerName(n): n for n in range(_pcbnew.PCB_LAYER_ID_COUNT)}
+
 
 class Layer(object):
     def __init__(self, board_item):

@@ -13,34 +13,46 @@
 #
 # (C) 2018 by Thomas Pointhuber, <thomas.pointhuber@gmx.at>
 
-from kicad.pcbnew.boarditem import BoardItem
-from kicad.pcbnew.net import Net
-
 from kicad._native import _pcbnew
 
 
-class Via(BoardItem):
-    def __init__(self, via):
-        assert isinstance(via, _pcbnew.VIA)
-        super(Via, self).__init__(via)
+class Net(object):
+    def __init__(self, netinfo):
+        assert isinstance(netinfo, _pcbnew.NETINFO_ITEM)
+        self._obj = netinfo
 
     def get_native(self):
         """Get native object from the low level API
 
-        :return: :class:`pcbnew.VIA`
+        :return: :class:`pcbnew.NETINFO_ITEM`
         """
         return self._obj
 
     @property
-    def net(self):
-        """Net of the Via
+    def name(self):
+        """Name of Net
 
-        :return: :class:`kicad.pcbnew.Net`
+        :return: ``unicode``
         """
-        return Net(self._obj.GetNet())
+        return self._obj.GetNetname()
+
+    def __eq__(self, other):
+        if not isinstance(self, other.__class__):
+            return False
+
+        if not isinstance(self._obj, other._obj.__class__):
+            return False
+
+        if self._obj == other._obj:
+            return True
+
+        return self.name == other.name
+
+    def __ne__(self, other):
+        return not self.__eq__(other)
 
     def __repr__(self):
-        return "kicad.pcbnew.Via({})".format(self._obj)
+        return "kicad.pcbnew.Net({})".format(self._obj)
 
     def __str__(self):
-        return "kicad.pcbnew.Via(\"{}\")".format(self.net.name)
+        return "kicad.pcbnew.Net(\"{}\")".format(self.name)

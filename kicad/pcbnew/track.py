@@ -14,6 +14,7 @@
 # (C) 2018 by Thomas Pointhuber, <thomas.pointhuber@gmx.at>
 
 from kicad.pcbnew.boarditem import BoardItem
+from kicad.pcbnew.net import Net
 
 from kicad._native import _pcbnew
 
@@ -30,5 +31,16 @@ class Track(BoardItem):
         """
         return self._obj
 
+    @property
+    def net(self):
+        """Net of the Track
+
+        :return: :class:`kicad.pcbnew.Net`
+        """
+        return Net(self._obj.GetNet())
+
     def __repr__(self):
         return "kicad.pcbnew.Track({})".format(self._obj)
+
+    def __str__(self):
+        return "kicad.pcbnew.Track(\"{}\")".format(self.net.name)

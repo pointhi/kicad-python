@@ -12,6 +12,7 @@ kicad.pcbnew
    drawsegment
    layer
    module
+   net
    pad
    pcbtarget
    text
