@@ -68,7 +68,7 @@ class Layer(object):
 
         :return: ``unicode``
         """
-        return _LAYERS_NAME_LOOKUP.get(self._id)
+        return _LAYERS_NAME_LOOKUP.get(self._id, "")
 
     def __eq__(self, other):
         if not isinstance(self, other.__class__):
@@ -80,7 +80,7 @@ class Layer(object):
         return not self.__eq__(other)
 
     def __repr__(self):
-        return "kicad.pcbnew.Layer(id={})".format(self.id, self.name)
+        return "kicad.pcbnew.Layer(id={})".format(self.id)
 
     def __str__(self):
         return "kicad.pcbnew.Layer(id={}, name=\"{}\")".format(self.id, self.name)

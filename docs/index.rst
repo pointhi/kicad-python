@@ -23,6 +23,7 @@ of this idea (thus unstable 3rd-party software).
    
    kicad/pcbnew/index
    kicad/util/index
+   kicad/plotter
 
 .. toctree::
    :caption: Examples
