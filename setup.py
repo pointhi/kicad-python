@@ -1,29 +1,31 @@
 #!/usr/bin/env python2
 
+import os
+import sys
+
 from setuptools import setup
 from setuptools import find_packages
 
+long_description = open(os.path.join(sys.path[0], 'README.md')).read()
+
 setup(
-    name='kicad',
-    version='0.1',
+    name='kicad-python',
+    version='0.0.1',
     author='Thomas Pointhuber',
     author_email='thomas.pointhuber@gmx.at',
     url='https://github.com/pointhi/kicad-python',
-    description="abstraction layer for the kicad api",
-    long_description="""
-        The KiCad python interface is a 1:1 representation of the underlying API. Doing scripting on this interface
-        is in one side error prone due to changes, and also means we need to handle all that stuff in a C++ way.
-        Abstracting this API allows us to write code on a defined and stable codebase in a "pythonic" way.
-        """,
+    description="unofficial abstraction layer for the KiCad API",
+    long_description=long_description,
     license="GPL3+",
 
     install_requires=[],
-    packages=find_packages('.', exclude=["tests*", "examples*"]),
-    package_data={'': ['gdot.glade']},
-    entry_points=dict(gui_scripts=['gdot=gdot.gdot:main']),
+    packages=find_packages('.', exclude=['tests*']),
     test_suite='tests',
 
     classifiers=[
-        'Development Status :: 3 - Alpha',
+        'Development Status :: 2 - Pre-Alpha',
+        'License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)',
+        'Programming Language :: Python :: 2 :: Only',  # not because of our implementation, but because of KiCad
+        'Topic :: Scientific/Engineering :: Electronic Design Automation (EDA)'
     ],
 )
