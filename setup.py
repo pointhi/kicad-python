@@ -16,6 +16,7 @@ setup(
     url='https://github.com/pointhi/kicad-python',
     description="unofficial abstraction layer for the KiCad API",
     long_description=long_description,
+    long_description_content_type='text/markdown',
     license="GPL3+",
 
     install_requires=[],
