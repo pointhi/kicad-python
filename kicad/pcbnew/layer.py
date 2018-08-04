@@ -13,12 +13,17 @@
 #
 # (C) 2018 by Thomas Pointhuber, <thomas.pointhuber@gmx.at>
 
+import sys
+
 from kicad._native import _pcbnew
 
 
 # dict for default layers to convert layer names to id and back
 _LAYERS = {_pcbnew.BOARD_GetStandardLayerName(n): n for n in range(_pcbnew.PCB_LAYER_ID_COUNT)}
-_LAYERS_NAME_LOOKUP = {s: n for n, s in _LAYERS.iteritems()}
+if sys.version_info >= (3,):
+    _LAYERS_NAME_LOOKUP = {s: n for n, s in _LAYERS.items()}
+else:
+    _LAYERS_NAME_LOOKUP = {s: n for n, s in _LAYERS.iteritems()}
 
 
 class Layer(object):
