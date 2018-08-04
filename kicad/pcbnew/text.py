@@ -16,6 +16,8 @@
 from kicad.pcbnew.boarditem import BoardItem
 from kicad.pcbnew.layer import Layer, BoardItemLayer
 
+from kicad.util.point import Point2D
+
 from kicad._native import _pcbnew
 
 
@@ -43,6 +45,18 @@ class Text(BoardItem):
     def layer(self, layer):
         assert type(layer) is Layer
         self._obj.SetLayer(layer.id)
+
+    @property
+    def position(self):
+        """Position of the Text
+
+        :return: :class:`kicad.util.Point2D`
+        """
+        return Point2D.from_wxPoint(self._obj.GetPosition())
+
+    @position.setter
+    def position(self, pos):
+        self._obj.SetPosition(Point2D(pos).to_wxPoint())
 
     @property
     def text(self):

@@ -17,6 +17,7 @@ from kicad.pcbnew.boarditem import BoardItem, from_board_item
 
 from kicad.pcbnew.module import Module
 from kicad.pcbnew.track import Track
+from kicad.pcbnew.via import Via
 from kicad.pcbnew.zone import Zone
 
 from kicad.util.point import Point2D
@@ -143,24 +144,37 @@ class Board(BoardItem):
 
         :return: Iterator over :class:`kicad.pcbnew.Module`
         """
-        it = self._obj.GetModules().begin()  # TODO: check
-        while it is not None:
-            yield Module(it)
-            it = it.Next()
+        for item in self._obj.GetModules():
+            yield Module(item)
 
     @property
     def tracks(self):
-        it = self._obj.GetTracks().begin()  # TODO: check
-        while it is not None:
-            yield Track(it)  # TODO: vias also included
-            it = it.Next()
+        """List of Tracks present in the Board
+
+        :return: Iterator over :class:`kicad.pcbnew.Track`
+        """
+        for item in self._obj.GetTracks():
+            if type(item) is _pcbnew.TRACK:
+                yield Track(item)
+
+    @property
+    def vias(self):
+        """List of Vias present in the Board
+
+        :return: Iterator over :class:`kicad.pcbnew.Via`
+        """
+        for item in self._obj.GetTracks():
+            if type(item) is _pcbnew.VIA:
+                yield Via(item)
 
     @property
     def zones(self):
-        it = self._obj.GetZones().begin()  # TODO: check
-        while it is not None:
-            yield Zone(it)
-            it = it.Next()
+        """List of Zones present in the Board
+
+        :return: Iterator over :class:`kicad.pcbnew.Zone`
+        """
+        for idx in range(self._obj.GetAreaCount()):
+            yield Zone(self._obj.GetArea(idx))
 
     def is_zone_filled(self):
         pass  # TODO: implement
@@ -173,10 +187,8 @@ class Board(BoardItem):
 
     @property
     def drawings(self):
-        it = self._obj.GetDrawings().begin()  # TODO: check
-        while it is not None:
-            yield from_board_item(it)
-            it = it.Next()
+        for item in self._obj.GetDrawings():
+            yield from_board_item(item)
 
     @property
     def layers_enabled(self):

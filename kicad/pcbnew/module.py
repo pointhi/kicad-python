@@ -17,6 +17,8 @@ from kicad.pcbnew.boarditem import BoardItem
 
 from kicad.pcbnew.pad import Pad
 
+from kicad.util.point import Point2D
+
 from kicad._native import _pcbnew
 
 
@@ -77,6 +79,18 @@ class Module(BoardItem):
         """
         for p in self._obj.Pads():
             yield Pad(p)
+
+    @property
+    def position(self):
+        """Position of the Module
+
+        :return: :class:`kicad.util.Point2D`
+        """
+        return Point2D.from_wxPoint(self._obj.GetPosition())
+
+    @position.setter
+    def position(self, pos):
+        self._obj.SetPosition(Point2D(pos).to_wxPoint())
 
     @property
     def reference(self):

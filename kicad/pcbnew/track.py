@@ -16,12 +16,14 @@
 from kicad.pcbnew.boarditem import BoardItem
 from kicad.pcbnew.net import Net
 
+from kicad.util.point import Point2D
+
 from kicad._native import _pcbnew
 
 
 class Track(BoardItem):
     def __init__(self, track):
-        assert isinstance(track, _pcbnew.TRACK)
+        assert type(track) is _pcbnew.TRACK
         super(Track, self).__init__(track)
 
     def get_native(self):
@@ -30,6 +32,42 @@ class Track(BoardItem):
         :return: :class:`pcbnew.TRACK`
         """
         return self._obj
+
+    @property
+    def start(self):
+        """Start of the Track
+
+        :return: :class:`kicad.util.Point2D`
+        """
+        return Point2D.from_wxPoint(self._obj.GetStart())
+
+    @start.setter
+    def start(self, start):
+        self._obj.SetStart(Point2D(start).to_wxPoint())
+
+    @property
+    def end(self):
+        """End of the Track
+
+        :return: :class:`kicad.util.Point2D`
+        """
+        return Point2D.from_wxPoint(self._obj.GetEnd())
+
+    @end.setter
+    def end(self, end):
+        self._obj.SetEnd(Point2D(end).to_wxPoint())
+
+    @property
+    def width(self):
+        """Width of Track in mm
+
+        :return: ``float``
+        """
+        return _pcbnew.ToMM(self._obj.GetWidth())
+
+    @width.setter
+    def width(self, width):
+        self._obj.SetWidth(_pcbnew.FromMM(width))
 
     @property
     def net(self):

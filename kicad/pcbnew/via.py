@@ -16,12 +16,14 @@
 from kicad.pcbnew.boarditem import BoardItem
 from kicad.pcbnew.net import Net
 
+from kicad.util.point import Point2D
+
 from kicad._native import _pcbnew
 
 
 class Via(BoardItem):
     def __init__(self, via):
-        assert isinstance(via, _pcbnew.VIA)
+        assert type(via) is _pcbnew.VIA
         super(Via, self).__init__(via)
 
     def get_native(self):
@@ -30,6 +32,42 @@ class Via(BoardItem):
         :return: :class:`pcbnew.VIA`
         """
         return self._obj
+
+    @property
+    def position(self):
+        """Position of the Via
+
+        :return: :class:`kicad.util.Point2D`
+        """
+        return Point2D.from_wxPoint(self._obj.GetPosition())
+
+    @position.setter
+    def position(self, pos):
+        self._obj.SetPosition(Point2D(pos).to_wxPoint())
+
+    @property
+    def drill(self):
+        """Drill size of Via in mm
+
+        :return: ``float``
+        """
+        return _pcbnew.ToMM(self._obj.GetDrillValue())
+
+    @drill.setter
+    def drill(self, drill):
+        self._obj.SetDrill(_pcbnew.FromMM(drill))
+
+    @property
+    def width(self):
+        """Width of Via in mm
+
+        :return: ``float``
+        """
+        return _pcbnew.ToMM(self._obj.GetWidth())
+
+    @width.setter
+    def width(self, width):
+        self._obj.SetWidth(_pcbnew.FromMM(width))
 
     @property
     def net(self):

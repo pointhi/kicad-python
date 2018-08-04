@@ -14,13 +14,14 @@
 # (C) 2018 by Thomas Pointhuber, <thomas.pointhuber@gmx.at>
 
 from kicad.pcbnew.boarditem import BoardItem
+from kicad.pcbnew.net import Net
 
 from kicad._native import _pcbnew
 
 
 class Zone(BoardItem):
     def __init__(self, zone):
-        assert isinstance(zone, _pcbnew.ZONE)
+        assert isinstance(zone, _pcbnew.ZONE_CONTAINER)
         super(Zone, self).__init__(zone)
 
     def get_native(self):
@@ -29,6 +30,26 @@ class Zone(BoardItem):
         :return: :class:`pcbnew.ZONE`
         """
         return self._obj
+
+    @property
+    def priority(self):
+        """Priority of the Zone
+
+        :return: ``int``
+        """
+        return self._obj.GetPriority()
+
+    @priority.setter
+    def priority(self, priority):
+        self._obj.SetPriority(priority)
+
+    @property
+    def net(self):
+        """Net of the Zone
+
+        :return: :class:`kicad.pcbnew.Net`
+        """
+        return Net(self._obj.GetNet())
 
     def __repr__(self):
         return "kicad.pcbnew.Zone({})".format(self._obj)
