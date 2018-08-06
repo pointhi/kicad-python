@@ -29,7 +29,7 @@ of this idea (thus unstable 3rd-party software).
    :caption: Examples
    :maxdepth: 2
 
-   examples/bga_fanout
+   examples/list_pcb
 
 Indices and tables
 ==================
