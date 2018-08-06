@@ -47,11 +47,14 @@ class Layer(object):
         """Get Layer object from name
 
         :param name:
-        :type id: ``str``, ``unicode``
+        :type id: ``str``
 
         :return: :class:`kicad.pcbnew.Layer`
         """
-        assert type(name) in [str, unicode]
+        if sys.version_info >= (3,):
+            assert type(name) is str
+        else:
+            assert type(name) in [str, unicode]
         return Layer(_LAYERS[name])
 
     @property

@@ -13,6 +13,8 @@
 #
 # (C) 2018 by Thomas Pointhuber, <thomas.pointhuber@gmx.at>
 
+import sys
+
 from kicad.pcbnew.board import Board
 from kicad.pcbnew.layer import Layer
 
@@ -47,7 +49,7 @@ class Plotter(object):
         """Open a new plotfile for writing
 
         :param filename: Name of the file to plot
-        :type filename: ``str``, ``unicode``
+        :type filename: ``str``
         :param format: format of the output file
         :param sheet_description: some description
 
@@ -63,8 +65,12 @@ class Plotter(object):
         ...     p.plot_layer()# doctest: +SKIP
         ...
         """
-        assert type(filename) in [str, unicode]
-        assert sheet_description is None or type(sheet_description) in [str, unicode]
+        if sys.version_info >= (3,):
+            assert type(filename) is str
+            assert sheet_description is None or type(sheet_description) is str
+        else:
+            assert type(filename) in [str, unicode]
+            assert sheet_description is None or type(sheet_description) in [str, unicode]
 
         self._pctl.OpenPlotfile(filename, format, sheet_description)
 

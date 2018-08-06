@@ -87,11 +87,13 @@ class Point2D(object):
         """
         return _pcbnew.wxSizeMM(float(self.x), float(self.y))
 
-    def round_to(self, base):
+    def round_to(self, base, prec=10):
         """Round to a specific base (like it's required for a grid)
 
         :param base: base we want to round to
         :type base: ``float``
+        :param prec: precision of rounding operation
+        :type prec: ``int``
 
         :return: :class:`kicad.util.Point2D`
 
@@ -104,8 +106,8 @@ class Point2D(object):
         if base == 0:
             return self
 
-        return Point2D({'x': round(self.x / base) * base,
-                        'y': round(self.y / base) * base})
+        return Point2D({'x': round(base * round(self.x / base), prec),
+                        'y': round(base * round(self.y / base), prec)})
 
     def __eq__(self, other):
         if not isinstance(self, other.__class__):

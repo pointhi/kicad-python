@@ -89,8 +89,8 @@ class Board(BoardItem):
         >>> from kicad.pcbnew import Board
         >>> b = Board()
         >>> b.filepath = "path/to/board.kicad_mod"
-        >>> b.filepath
-        u'path/to/board.kicad_mod'
+        >>> print(b.filepath)
+        path/to/board.kicad_mod
         """
         return self._obj.GetFileName()
 
