@@ -22,8 +22,6 @@ from kicad.pcbnew import Board, Layer
 from kicad.primitives import PolygonSet
 
 # Dependencies required for plotting
-import numpy
-import matplotlib
 import matplotlib.pyplot as plt
 from matplotlib.patches import Polygon
 from matplotlib.collections import PatchCollection
@@ -101,6 +99,7 @@ def plot_polygon_from_polyset(polyset):
         polygon = Polygon(poly.outline, True)
         patches.append(polygon)
     return patches
+
 
 def patch_collection_from_nets(merged_nets):
     """create matplotlib Polygons for PatchCollection"""

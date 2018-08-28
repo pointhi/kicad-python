@@ -10,7 +10,7 @@ long_description = open(os.path.join(sys.path[0], 'README.md')).read()
 
 setup(
     name='kicad-python',
-    version='0.0.1',
+    version='0.0.2',
     author='Thomas Pointhuber',
     author_email='thomas.pointhuber@gmx.at',
     url='https://github.com/pointhi/kicad-python',
