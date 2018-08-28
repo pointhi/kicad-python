@@ -114,9 +114,9 @@ def create_diff_polygons(old_merged_nets, new_merged_nets):
     all_nets = set(old_merged_nets.keys())
     all_nets.union(new_merged_nets.keys())
 
-    intersection_polygon = PolygonSet()
-    addition_polygon = PolygonSet()
-    substraction_polygon = PolygonSet()
+    nodiff_poly = PolygonSet()
+    add_poly = PolygonSet()
+    sub_poly = PolygonSet()
 
     for net in all_nets:
         print('* Calculate diff for "{}"'.format(net))
@@ -124,30 +124,30 @@ def create_diff_polygons(old_merged_nets, new_merged_nets):
         new_net = new_merged_nets.get(net)
 
         if old_net and new_net:
-            tmp_intersection = PolygonSet()
-            tmp_intersection.union(old_net)
-            tmp_intersection.intersection(new_net)
-            intersection_polygon.union(tmp_intersection)
+            nodiff_poly.union(old_net)
+            nodiff_poly.union(new_net)
 
-            tmp_substraction = PolygonSet()
-            tmp_substraction.union(old_net)
-            tmp_substraction.difference(new_net)  # TODO: test
-            substraction_polygon.union(tmp_substraction)
+            tmp_sub = PolygonSet()
+            tmp_sub.union(old_net)
+            tmp_sub.difference(new_net)
+            sub_poly.union(tmp_sub)
 
-            tmp_addition = PolygonSet()
-            tmp_addition.union(new_net)
-            tmp_addition.difference(old_net)  # TODO: test
-            addition_polygon.union(tmp_addition)
+            tmp_add = PolygonSet()
+            tmp_add.union(new_net)
+            tmp_add.difference(old_net)
+            add_poly.union(tmp_add)
         elif old_net:
-            substraction_polygon.union(old_net)
+            nodiff_poly.union(old_net)
+            sub_poly.union(old_net)
         elif new_net:
-            addition_polygon.union(new_net)
+            nodiff_poly.union(new_net)
+            add_poly.union(new_net)
 
-    intersection_polygon.fracture()
-    addition_polygon.fracture()
-    substraction_polygon.fracture()
+    nodiff_poly.fracture()
+    add_poly.fracture()
+    sub_poly.fracture()
 
-    return intersection_polygon, addition_polygon, substraction_polygon
+    return nodiff_poly, add_poly, sub_poly
 
 
 if __name__ == "__main__":
@@ -185,7 +185,7 @@ if __name__ == "__main__":
     sub_p = PatchCollection(plot_polygon_from_polyset(sub_poly), alpha=0.6, facecolors='red')
     ax.add_collection(sub_p)
 
-    add_p = PatchCollection(plot_polygon_from_polyset(add_poly), alpha=0.8, facecolors='green')
+    add_p = PatchCollection(plot_polygon_from_polyset(add_poly), alpha=0.6, facecolors='green')
     ax.add_collection(add_p)
 
     # output diff
