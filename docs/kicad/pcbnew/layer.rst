@@ -7,3 +7,5 @@ Layer
    :members:
    :inherited-members:
 
+.. autoclass:: kicad.pcbnew.LayerSet
+   :members:
