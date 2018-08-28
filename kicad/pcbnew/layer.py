@@ -82,7 +82,7 @@ class Layer(object):
         if not isinstance(self, other.__class__):
             return False
 
-        return self.id == other.id and self.name == other.name
+        return self.id == other.id
 
     def __ne__(self, other):
         return not self.__eq__(other)
@@ -119,3 +119,34 @@ class BoardItemLayer(Layer):
         :return: ``unicode``
         """
         return self._obj.GetLayerName()
+
+
+class LayerSet(object):
+    def __init__(self, layer_set):
+        assert isinstance(layer_set, _pcbnew.LSET)
+        self._obj = layer_set
+
+    def get_native(self):
+        """Get native object from the low level API
+        :return: :class:`pcbnew.LSET`
+        """
+        return self._obj
+
+    def __iter__(self):
+        for id in self._obj.SeqStackupBottom2Top():
+            yield Layer.from_id(id)
+
+    def __eq__(self, other):
+        if not isinstance(self, other.__class__):
+            return False
+
+        return set(iter(self)) == set(iter(other))  # TODO: verify
+
+    def __ne__(self, other):
+        return not self.__eq__(other)
+
+    def __repr__(self):
+        return "kicad.pcbnew.LayerSet({})".format(self._obj)
+
+    def __str__(self):
+        return "kicad.pcbnew.LayerSet({{{}}})".format(', '.join([str(i.name) for i in iter(self)]))

@@ -73,6 +73,17 @@ class Point2D(object):
         """
         return Point2D(_pcbnew.ToMM(wxobj))
 
+    @staticmethod
+    def from_wxSize(wxobj):
+        """Convert a wxSize to a Point2D
+
+        :param wxobj: point to convert
+        :type wxobj: :class:`pcbnew.wxSize`
+
+        :return: :class:`kicad.util.Point2D`
+        """
+        return Point2D(_pcbnew.ToMM(wxobj))
+
     def to_wxPoint(self):
         """Convert coordinate to internal coordinate
 

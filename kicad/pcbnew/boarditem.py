@@ -13,6 +13,7 @@
 #
 # (C) 2018 by Thomas Pointhuber, <thomas.pointhuber@gmx.at>
 
+from kicad.pcbnew.layer import Layer, LayerSet
 
 from kicad._native import _pcbnew
 
@@ -134,6 +135,22 @@ class BoardItem(object):
             self._obj.SetSelected()
         else:
             self._obj.ClearSelected()
+
+    @property
+    def layer(self):
+        """primary layer of the item
+
+        :return: ``kicad.pcbnew.Layer``
+        """
+        return Layer.from_id(self._obj.GetLayer())
+
+    @property
+    def layers(self):
+        """All layers where the item is present on
+
+        :return: ``kicad.pcbnew.LayerSet``
+        """
+        return LayerSet(self._obj.GetLayerSet())
 
     def __eq__(self, other):
         if not isinstance(self, other.__class__):

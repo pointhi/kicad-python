@@ -70,6 +70,30 @@ class Text(BoardItem):
     def text(self, text):
         self._obj.SetText(text)
 
+    @property
+    def text_size(self):
+        """Text Size
+
+        :return: :class:`kicad.util.Point2D`
+        """
+        return Point2D.from_wxSize(self._obj.GetTextSize())
+
+    @text_size.setter
+    def text_size(self, text_size):
+        self._obj.SetTextSize(Point2D(text_size).to_wxSize())
+
+    @property
+    def thickness(self):
+        """Thickness
+
+        :return: ``float``
+        """
+        return _pcbnew.ToMM(self._obj.GetThickness())
+
+    @thickness.setter
+    def thickness(self, thickness):
+        self._obj.SetThickness(_pcbnew.FromMM(thickness))
+
     def __repr__(self):
         return "kicad.pcbnew.Text({})".format(self._obj)
 
