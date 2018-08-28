@@ -167,6 +167,9 @@ class Point2D(object):
     def __dict__(self):
         return {'x': self.x, 'y': self.y}
 
+    def __hash__(self):
+        return hash((self.x, self.y))
+
     def __repr__(self):
         return "kicad.util.point.Point2D({x}, {y})".format(**self.__dict__())
 

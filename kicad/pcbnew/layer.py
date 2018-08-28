@@ -87,6 +87,9 @@ class Layer(object):
     def __ne__(self, other):
         return not self.__eq__(other)
 
+    def __hash__(self):
+        return hash(self.id)
+
     def __repr__(self):
         return "kicad.pcbnew.Layer(id={})".format(self.id)
 
@@ -144,6 +147,9 @@ class LayerSet(object):
 
     def __ne__(self, other):
         return not self.__eq__(other)
+
+    def __hash__(self):
+        return hash(self._obj.FmtHex())
 
     def __repr__(self):
         return "kicad.pcbnew.LayerSet({})".format(self._obj)

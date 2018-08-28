@@ -45,7 +45,7 @@ class Polygon(object):
         return not self.__eq__(other)
 
     def __repr__(self):
-        return "kicad.primitives.Polygon({})".format(self._obj)
+        return "kicad.primitives.Polygon(outline={})".format(self._outline)
 
 
 class PolygonSet(object):
