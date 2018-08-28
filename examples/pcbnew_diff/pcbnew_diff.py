@@ -73,17 +73,14 @@ def create_polysets_per_net(board, layer):
             add_polyset(pad.net, create_polyset_from_item(pad))
 
     # TODO: drawings
-
     return nets
 
 
 def merge_polysets(polysets):
     """Merge multiple PolygonSet into one PolygonSet"""
     p = PolygonSet()
-
     for ps in polysets:
         p.union(ps)
-
     return p
 
 
@@ -91,54 +88,107 @@ def unify_polysets(nets):
     """Merge multiple PolygonSet per Net into one PolygonSet and remove holes"""
     merged_nets = {}
     for net in nets.keys():
-        print("unify polyset for net: \"{}\" with {} subpolygons".format(net.name, len(nets[net])))
+        print("* Unify polyset for \"{}\" with {} subpolygons".format(net, len(nets[net])))
         merged_nets[net] = merge_polysets(nets[net])
-        merged_nets[net].fracture()  # TODO: only for plotting required
-
+        merged_nets[net].fracture()  # only for plotting required, just to be sure
     return merged_nets
 
+
+def plot_polygon_from_polyset(polyset):
+    patches = []
+    for poly in polyset:
+        assert len(poly.holes) == 0  # because of fracture() no holes are present
+        polygon = Polygon(poly.outline, True)
+        patches.append(polygon)
+    return patches
 
 def patch_collection_from_nets(merged_nets):
     """create matplotlib Polygons for PatchCollection"""
     patches = []
     for net in merged_nets.keys():
-        for poly in merged_nets[net]:
-            assert len(poly.holes) == 0  # because of fracture() no holes are present
-            polygon = Polygon(poly.outline, True)
-            patches.append(polygon)
-
+        patches += plot_polygon_from_polyset(merged_nets[net])
     return patches
+
+
+def create_diff_polygons(old_merged_nets, new_merged_nets):
+    all_nets = set(old_merged_nets.keys())
+    all_nets.union(new_merged_nets.keys())
+
+    intersection_polygon = PolygonSet()
+    addition_polygon = PolygonSet()
+    substraction_polygon = PolygonSet()
+
+    for net in all_nets:
+        print('* Calculate diff for "{}"'.format(net))
+        old_net = old_merged_nets.get(net)
+        new_net = new_merged_nets.get(net)
+
+        if old_net and new_net:
+            tmp_intersection = PolygonSet()
+            tmp_intersection.union(old_net)
+            tmp_intersection.intersection(new_net)
+            intersection_polygon.union(tmp_intersection)
+
+            tmp_substraction = PolygonSet()
+            tmp_substraction.union(old_net)
+            tmp_substraction.difference(new_net)  # TODO: test
+            substraction_polygon.union(tmp_substraction)
+
+            tmp_addition = PolygonSet()
+            tmp_addition.union(new_net)
+            tmp_addition.difference(old_net)  # TODO: test
+            addition_polygon.union(tmp_addition)
+        elif old_net:
+            substraction_polygon.union(old_net)
+        elif new_net:
+            addition_polygon.union(new_net)
+
+    intersection_polygon.fracture()
+    addition_polygon.fracture()
+    substraction_polygon.fracture()
+
+    return intersection_polygon, addition_polygon, substraction_polygon
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
 
     parser.add_argument('old_board', help='old board file as original board', action='store')
-    # parser.add_argument('new_board', help='new board file to compare to', action='store')  # TODO: implement
+    parser.add_argument('new_board', help='new board file to compare to', action='store')  # TODO: implement
 
     parser.add_argument('--layer', help='layer which should be diffed', action='store', default='F.Cu')
 
     args = parser.parse_args()
 
     old_board = Board.from_file(args.old_board)
+    new_board = Board.from_file(args.new_board)
 
     layer = Layer.from_name(args.layer)
 
     # Create Polygons for boards
-    nets = create_polysets_per_net(old_board, layer)
-    merged_nets = unify_polysets(nets)
+    old_nets = create_polysets_per_net(old_board, layer)
+    old_merged_nets = unify_polysets(old_nets)
+
+    new_nets = create_polysets_per_net(new_board, layer)
+    new_merged_nets = unify_polysets(new_nets)
+
+    # Create diff polygons
+    nodiff_poly, add_poly, sub_poly = create_diff_polygons(old_merged_nets, new_merged_nets)
 
     # Start Plotting code
     fig, ax = plt.subplots()
 
-    numpy.random.seed(0)  # same colors always
-    colors = 100 * numpy.random.random(len(merged_nets))
-    patches = patch_collection_from_nets(merged_nets)
-    p = PatchCollection(patches, cmap=matplotlib.cm.jet, alpha=0.4)
-    p.set_array(colors)
+    # Plot all layers
+    nodiff_p = PatchCollection(plot_polygon_from_polyset(nodiff_poly), alpha=0.4, facecolors='lightgrey')
+    ax.add_collection(nodiff_p)
 
-    ax.add_collection(p)
+    sub_p = PatchCollection(plot_polygon_from_polyset(sub_poly), alpha=0.6, facecolors='red')
+    ax.add_collection(sub_p)
 
+    add_p = PatchCollection(plot_polygon_from_polyset(add_poly), alpha=0.8, facecolors='green')
+    ax.add_collection(add_p)
+
+    # output diff
     plt.gca().set_aspect('equal', adjustable='box')
     plt.gca().invert_yaxis()
     ax.autoscale()
