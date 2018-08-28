@@ -14,6 +14,7 @@
 # (C) 2018 by Thomas Pointhuber, <thomas.pointhuber@gmx.at>
 
 from kicad.pcbnew.boarditem import BoardItem
+from kicad.pcbnew.net import Net
 
 from kicad._native import _pcbnew
 
@@ -41,6 +42,14 @@ class Pad(BoardItem):
     @name.setter
     def name(self, name):
         self._obj.SetName(name)
+
+    @property
+    def net(self):
+        """Net of the Zone
+
+        :return: :class:`kicad.pcbnew.Net`
+        """
+        return Net(self._obj.GetNet())
 
     def __repr__(self):
         return "kicad.pcbnew.Pad({})".format(self._obj)
