@@ -13,7 +13,7 @@
 #
 # (C) 2018 by Thomas Pointhuber, <thomas.pointhuber@gmx.at>
 
-from typing import Generator
+from typing import Generator  # noqa: F401
 
 from kicad.pcbnew.boarditem import BoardItem
 
