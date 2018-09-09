@@ -19,6 +19,7 @@ from kicad._native import _pcbnew
 
 
 def from_board_item(board_item):
+    # type: (_pcbnew.BOARD_ITEM) -> BoardItem
     item = board_item.Cast()
     item_type = type(item)
 
@@ -50,11 +51,11 @@ def from_board_item(board_item):
         return Pad(item)
 
     elif item_type is _pcbnew.TEXTE_MODULE:
-        from kicad.pcbnew.text import Text
+        from kicad.pcbnew.text import Text  # type: ignore
         return Text(item)
 
     elif item_type is _pcbnew.VIA:
-        from kicad.pcbnew.text import Via
+        from kicad.pcbnew.via import Via
         return Via(item)
 
     elif item_type is _pcbnew.TRACK:
@@ -81,10 +82,12 @@ class BoardItem(object):
     """
 
     def __init__(self, board_item):
+        # type: (_pcbnew.BOARD_ITEM) -> None
         assert isinstance(board_item, _pcbnew.BOARD_ITEM)
-        self._obj = board_item
+        self._obj = board_item  # type: _pcbnew.BOARD_ITEM
 
     def get_native(self):
+        # type: () -> _pcbnew.BOARD_ITEM
         """Get native object from the low level API
 
         :return: :class:`pcbnew.BOARD_ITEM`
@@ -93,6 +96,7 @@ class BoardItem(object):
 
     @property
     def is_highlighted(self):
+        # type: () -> bool
         """is highlighted?
 
         :return: ``bool``
@@ -101,6 +105,7 @@ class BoardItem(object):
 
     @is_highlighted.setter
     def is_highlighted(self, is_highlighted):
+        # type: (bool) -> None
         assert type(is_highlighted) is bool
         if is_highlighted:
             self._obj.SetHighlighted()
@@ -109,6 +114,7 @@ class BoardItem(object):
 
     @property
     def is_locked(self):
+        # type: () -> bool
         """is locked?
 
         :return: ``bool``
@@ -117,11 +123,13 @@ class BoardItem(object):
 
     @is_locked.setter
     def is_locked(self, is_locked):
+        # type: (bool) -> None
         assert type(is_locked) is bool
         self._obj.SetLocked(is_locked)
 
     @property
     def is_selected(self):
+        # type: () -> bool
         """is selected?
 
         :return: ``bool``
@@ -130,6 +138,7 @@ class BoardItem(object):
 
     @is_selected.setter
     def is_selected(self, is_selected):
+        # type: (bool) -> None
         assert type(is_selected) is bool
         if is_selected:
             self._obj.SetSelected()
@@ -138,6 +147,7 @@ class BoardItem(object):
 
     @property
     def layer(self):
+        # type: () -> Layer
         """primary layer of the item
 
         :return: ``kicad.pcbnew.Layer``
@@ -146,6 +156,7 @@ class BoardItem(object):
 
     @property
     def layers(self):
+        # type: () -> LayerSet
         """All layers where the item is present on
 
         :return: ``kicad.pcbnew.LayerSet``
@@ -176,7 +187,9 @@ class BoardItem(object):
         return not self.__eq__(other)
 
     def __hash__(self):
+        # type: () -> int
         return hash(self.layers)
 
     def __repr__(self):
+        # type: () -> str
         return "kicad.pcbnew.boarditem.BoardItem({})".format(self._obj)

@@ -13,6 +13,8 @@
 #
 # (C) 2018 by Thomas Pointhuber, <thomas.pointhuber@gmx.at>
 
+from typing import Generator
+
 from kicad.pcbnew.boarditem import BoardItem, from_board_item
 
 from kicad.pcbnew.module import Module
@@ -37,12 +39,14 @@ class Board(BoardItem):
     >>> b = Board()
     """
     def __init__(self, board=None):
+        # type: (_pcbnew.BOARD) -> None
         if board is None:
             board = _pcbnew.BOARD()
         assert isinstance(board, _pcbnew.BOARD)
         super(Board, self).__init__(board)
 
     def get_native(self):
+        # type: () -> _pcbnew.BOARD
         """Get native object from the low level API
 
         :return: :class:`pcbnew.BOARD`
@@ -51,6 +55,7 @@ class Board(BoardItem):
 
     @staticmethod
     def from_editor():
+        # type: () -> Board
         """Get the current board visible in pcbnew
 
         :return: :class:`kicad.pcbnew.Board`
@@ -64,6 +69,7 @@ class Board(BoardItem):
 
     @staticmethod
     def from_file(path):
+        # type: (str) -> Board
         """Load a board from a given filepath
 
         :param path: path to the ".kicad_mod" file
@@ -80,6 +86,7 @@ class Board(BoardItem):
 
     @property
     def filepath(self):
+        # type: () -> str
         """Filepath of the Board
 
         :return: ``unicode``
@@ -96,10 +103,12 @@ class Board(BoardItem):
 
     @filepath.setter
     def filepath(self, filepath):
+        # type: (str) -> None
         self._obj.SetFileName(filepath)
 
     @property
     def aux_origin(self):
+        # type: () -> Point2D
         """Aux origin of Board
 
         :return: :class:`kicad.util.Point2D`
@@ -120,6 +129,7 @@ class Board(BoardItem):
 
     @property
     def grid_origin(self):
+        # type: () -> Point2D
         """Grid origin of Board
 
         :return: :class:`kicad.util.Point2D`
@@ -140,6 +150,7 @@ class Board(BoardItem):
 
     @property
     def modules(self):
+        # type: () -> Generator[Module, None, None]
         """List of Modules present in the Board
 
         :return: Iterator over :class:`kicad.pcbnew.Module`
@@ -149,6 +160,7 @@ class Board(BoardItem):
 
     @property
     def tracks(self):
+        # type: () -> Generator[Track, None, None]
         """List of Tracks present in the Board
 
         :return: Iterator over :class:`kicad.pcbnew.Track`
@@ -159,6 +171,7 @@ class Board(BoardItem):
 
     @property
     def vias(self):
+        # type: () -> Generator[Via, None, None]
         """List of Vias present in the Board
 
         :return: Iterator over :class:`kicad.pcbnew.Via`
@@ -169,6 +182,7 @@ class Board(BoardItem):
 
     @property
     def zones(self):
+        # type: () -> Generator[Zone, None, None]
         """List of Zones present in the Board
 
         :return: Iterator over :class:`kicad.pcbnew.Zone`
@@ -195,7 +209,9 @@ class Board(BoardItem):
         return self._obj.GetEnabledLayers()  # TODO: add wrapper and setter
 
     def __repr__(self):
+        # type: () -> str
         return "kicad.pcbnew.Board({})".format(self._obj)
 
     def __str__(self):
+        # type: () -> str
         return "kicad.pcbnew.Board(\"{}\")".format(self.filepath)

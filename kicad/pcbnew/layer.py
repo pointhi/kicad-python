@@ -28,11 +28,13 @@ else:
 
 class Layer(object):
     def __init__(self, id):
+        # type: (int) -> None
         assert type(id) is int
         self._id = id
 
     @staticmethod
     def from_id(id):
+        # type: (int) -> Layer
         """Get Layer object from id
 
         :param id:
@@ -44,6 +46,7 @@ class Layer(object):
 
     @staticmethod
     def from_name(name):
+        # type: (str) -> Layer
         """Get Layer object from name
 
         :param name:
@@ -59,6 +62,7 @@ class Layer(object):
 
     @property
     def id(self):
+        # type () -> int
         """internal ID of the layer
 
         :return: ``int``
@@ -67,11 +71,13 @@ class Layer(object):
 
     @id.setter
     def id(self, id):
+        # type: (int) -> None
         assert type(id) is int
         self._id = id
 
     @property
     def name(self):
+        # type: () -> str
         """name of the layer
 
         :return: ``unicode``
@@ -99,11 +105,13 @@ class Layer(object):
 
 class BoardItemLayer(Layer):
     def __init__(self, board_item):
+        # type: (_pcbnew.BOARD_ITEM) -> None
         assert isinstance(board_item, _pcbnew.BOARD_ITEM)
         self._obj = board_item
 
     @property
     def id(self):
+        # type: () -> int
         """internal ID of the layer
 
         :return: ``int``
@@ -112,11 +120,13 @@ class BoardItemLayer(Layer):
 
     @id.setter
     def id(self, id):
+        # type: (int) -> None
         assert type(id) is int
         self._obj.SetLayer(id)
 
     @property
     def name(self):
+        # type: () -> str
         """name of the layer
 
         :return: ``unicode``
@@ -126,10 +136,12 @@ class BoardItemLayer(Layer):
 
 class LayerSet(object):
     def __init__(self, layer_set):
+        # type: (_pcbnew.LSET) -> None
         assert isinstance(layer_set, _pcbnew.LSET)
         self._obj = layer_set
 
     def get_native(self):
+        # type: () -> _pcbnew.LSET
         """Get native object from the low level API
         :return: :class:`pcbnew.LSET`
         """
@@ -149,10 +161,13 @@ class LayerSet(object):
         return not self.__eq__(other)
 
     def __hash__(self):
+        # type: () -> int
         return hash(self._obj.FmtHex())
 
     def __repr__(self):
+        # type: () -> str
         return "kicad.pcbnew.LayerSet({})".format(self._obj)
 
     def __str__(self):
+        # type: () -> str
         return "kicad.pcbnew.LayerSet({{{}}})".format(', '.join([str(i.name) for i in iter(self)]))

@@ -13,6 +13,8 @@
 #
 # (C) 2018 by Thomas Pointhuber, <thomas.pointhuber@gmx.at>
 
+from typing import Generator
+
 from kicad.pcbnew.boarditem import BoardItem
 
 from kicad.pcbnew.pad import Pad
@@ -24,10 +26,12 @@ from kicad._native import _pcbnew
 
 class Module(BoardItem):
     def __init__(self, module):
+        # type: (_pcbnew.MODULE) -> None
         assert isinstance(module, _pcbnew.MODULE)
         super(Module, self).__init__(module)
 
     def get_native(self):
+        # type: () -> _pcbnew.MODULE
         """Get native object from the low level API
 
         :return: :class:`pcbnew.MODULE`
@@ -36,19 +40,18 @@ class Module(BoardItem):
 
     @staticmethod
     def from_editor():
+        # type: () -> Module
         """Get the current module"""
         return Module(_pcbnew.GetModule())  # TODO: in footprint editor, working?
 
     @staticmethod
     def from_file(path):
+        # type: (str) -> Module
         return Module(_pcbnew.LoadModule(path))  # TODO: working?
-
-    @staticmethod
-    def from_board(board):
-        return Module(_pcbnew.MODULE(board))
 
     @property
     def description(self):
+        # type: () -> str
         """Description of the Module
 
         :return: ``unicode``
@@ -57,10 +60,12 @@ class Module(BoardItem):
 
     @description.setter
     def description(self, description):
+        # type: (str) -> None
         self._obj.SetDescription(description)
 
     @property
     def keywords(self):
+        # type: () -> str
         """Keywords of the Module
 
         :return: ``unicode``
@@ -69,10 +74,12 @@ class Module(BoardItem):
 
     @keywords.setter
     def keywords(self, keywords):
+        # type: (str) -> None
         self._obj.SetKeywords(keywords)
 
     @property
     def pads(self):
+        # type: () -> Generator[Pad, None, None]
         """List of Pads present in the Module
 
         :return: Iterator over :class:`kicad.pcbnew.Pad`
@@ -82,6 +89,7 @@ class Module(BoardItem):
 
     @property
     def position(self):
+        # type: () -> Point2D
         """Position of the Module
 
         :return: :class:`kicad.util.Point2D`
@@ -94,6 +102,7 @@ class Module(BoardItem):
 
     @property
     def reference(self):
+        # type: () -> str
         """Reference of the Module
 
         :return: ``unicode``
@@ -102,10 +111,12 @@ class Module(BoardItem):
 
     @reference.setter
     def reference(self, reference):
+        # type: (str) -> None
         self._obj.SetReference(reference)
 
     @property
     def value(self):
+        # type: () -> str
         """Value of the Module
 
         :return: ``unicode``
@@ -114,10 +125,13 @@ class Module(BoardItem):
 
     @value.setter
     def value(self, value):
+        # type: (str) -> None
         self._obj.SetValue(value)
 
     def __repr__(self):
+        # type: () -> str
         return "kicad.pcbnew.Module({})".format(self._obj)
 
     def __str__(self):
+        # type: () -> str
         return "kicad.pcbnew.Module(\"{}\")".format(self.reference)
