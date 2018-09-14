@@ -72,7 +72,7 @@ class Board(BoardItem):
         # type: (str) -> Board
         """Load a board from a given filepath
 
-        :param path: path to the ".kicad_mod" file
+        :param path: path to the ".kicad_pcb" file
         :type path: ``str``, ``unicode``
 
         :return: :class:`kicad.pcbnew.Board`
@@ -80,9 +80,18 @@ class Board(BoardItem):
         :Example:
 
         >>> from kicad.pcbnew import Board
-        >>> b = Board.from_file("path/to/board.kicad_mod")# doctest: +SKIP
+        >>> b = Board.from_file("path/to/board.kicad_pcb")# doctest: +SKIP
         """
         return Board(_pcbnew.LoadBoard(path))
+
+    def to_file(self, path):
+        # type: (str) -> None
+        """Save a board to a given filepath
+
+        :param path: path for the ".kicad_pcb" file
+        :type path: ``str``, ``unicode``
+        """
+        _pcbnew.SaveBoard(path, self.get_native())
 
     @property
     def filepath(self):

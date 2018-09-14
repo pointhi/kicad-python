@@ -39,15 +39,29 @@ class Module(BoardItem):
         return self._obj
 
     @staticmethod
-    def from_editor():
-        # type: () -> Module
-        """Get the current module"""
-        return Module(_pcbnew.GetModule())  # TODO: in footprint editor, working?
+    def from_library(lib_path, name):
+        # type: (str, str) -> Module
+        """Load Module from library
 
-    @staticmethod
-    def from_file(path):
-        # type: (str) -> Module
-        return Module(_pcbnew.LoadModule(path))  # TODO: working?
+        :param lib_path: library path
+        :type lib_path: ``str``, ``unicode``
+        :param name: name of the footprin to load
+        :type name: ``str``, ``unicode``
+
+        :return: :class:`pcbnew.MODULE`
+        """
+        io = _pcbnew.PCB_IO()
+        return Module(io.FootprintLoad(lib_path, name))
+
+    def to_library(self, lib_path):
+        # type: (str) -> None
+        """Save Module to library
+
+        :param lib_path: library path where to save the footprint
+        :type lib_path: ``str``, ``unicode``
+        """
+        io = _pcbnew.PCB_IO()
+        io.FootprintSave(lib_path, self.get_native())  # TODO: uses FPID().GetLibItemName(), what to do when not set?
 
     @property
     def description(self):
