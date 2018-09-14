@@ -1,0 +1,13 @@
+- name: "test_1"
+  width: 1
+  height: 2
+  pad_width: 0.2
+  pad_height: 0.5
+  pad_spacing: 0.5
+
+- name: "test_2"
+  width: 2
+  height: 4
+  pad_width: 0.6
+  pad_height: 0.7
+  pad_spacing: 0.4
