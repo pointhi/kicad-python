@@ -47,7 +47,7 @@ class FootprintWizard(object):
 
 
 # https://github.com/KiCad/kicad-source-mirror/blob/master/pcbnew/python/plugins/FootprintWizardBase.py
-# https://github.com/KiCad/kicad-source-mirror/blob/72f87861bb22bf2ecb82ea570d9828a287436748/scripting/kicadplugins.i#L478
+# https://github.com/KiCad/kicad-source-mirror/blob/72f87861bb22bf2ecb82ea570d9828a287436748/scripting/kicadplugins.i#L478  # noqa
 class _FootprintWizardBase(_pcbnew.FootprintWizardPlugin):
     UNIT_CONVERSATION_TABLE = {
         bool: _pcbnew.uBool,
