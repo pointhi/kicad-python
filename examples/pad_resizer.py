@@ -16,8 +16,8 @@ def resize_pads(board, minimal_drill, minimal_annular_ring):
             assert pad.drill_size.x == pad.drill_size.y  # we assume round holes
             
             if pad.drill_size.x == 0:
-				print("* skip SMD pad")
-				continue
+                print("* skip SMD pad")
+                continue
             
             if pad.drill_size.x < minimal_drill:
                 new_size = Point2D([minimal_drill, minimal_drill])
