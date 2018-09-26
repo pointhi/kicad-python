@@ -16,6 +16,8 @@
 from kicad.pcbnew.boarditem import BoardItem
 from kicad.pcbnew.net import Net
 
+from kicad.util.point import Point2D
+
 from kicad._native import _pcbnew
 
 
@@ -42,6 +44,30 @@ class Pad(BoardItem):
     @name.setter
     def name(self, name):
         self._obj.SetName(name)
+
+    @property
+    def drill_size(self):
+        """Drill size of the Pad
+
+        :return: :class:`kicad.util.Point2D`
+        """
+        return Point2D.from_wxPoint(self._obj.GetDrillSize())
+
+    @drill_size.setter
+    def drill_size(self, drill_size):
+        self._obj.SetDrillSize(Point2D(drill_size).to_wxSize())
+
+    @property
+    def size(self):
+        """Size of the Pad
+
+        :return: :class:`kicad.util.Point2D`
+        """
+        return Point2D.from_wxPoint(self._obj.GetSize())
+
+    @size.setter
+    def size(self, size):
+        self._obj.SetSize(Point2D(size).to_wxSize())
 
     @property
     def net(self):
