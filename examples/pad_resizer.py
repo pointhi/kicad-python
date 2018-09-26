@@ -31,8 +31,8 @@ def resize_pads(board, minimal_drill, minimal_annular_ring):
                 pad.size = new_size
 
             if annular_size.y < minimal_annular_ring:
-                new_size = pad.size  # currently required because kicad-python cannot do pad.size.x = ...
-                new_size.x = pad.drill_size.y + minimal_annular_ring
+                new_size = pad.size  # currently required because kicad-python cannot do pad.size.y = ...
+                new_size.y = pad.drill_size.y + minimal_annular_ring
 
                 print("* modify size (y) from {} to {}".format(pad.size, new_size))
                 pad.size = new_size
