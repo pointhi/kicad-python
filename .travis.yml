@@ -15,7 +15,7 @@ python:
 before_install:
   # we need KiCad for testing
   #- sudo add-apt-repository --yes ppa:js-reynaud/kicad-4 -y
-  - sudo add-apt-repository --yes ppa:js-reynaud/ppa-kicad -y
+  - sudo add-apt-repository --yes ppa:js-reynaud/kicad-dev-nightly -y
   - sudo apt update -q
   - sudo apt install --no-install-recommends kicad -y
 install:
