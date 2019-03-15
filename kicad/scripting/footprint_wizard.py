@@ -191,7 +191,7 @@ class FootprintScriptingWizard(object):
             print("pyyaml not available!")
             sys.exit(1)
 
-        parsed = yaml.load(definition)
+        parsed = yaml.safe_load(definition)
 
         for config in parsed:
             fp_params = ParsedParameterMap(params)
