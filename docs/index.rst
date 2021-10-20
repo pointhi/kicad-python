@@ -6,7 +6,7 @@
 Welcome to KiCad's Python API documentation!
 ============================================
 
-This is the initial proposal for a high level `KiCad <http://kicad-pcb.org>`_. Python API.
+This is the initial proposal for a high level `KiCad <https://kicad.org>`_. Python API.
 
 Main goals are:
 
